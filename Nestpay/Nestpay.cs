@@ -13,16 +13,16 @@ namespace Nestpay {
         void SetIPv4(string ipv4);
         Nestpay.CC5Response Pay(string cardnumber, string cardmonth, string cardyear, string cardcode, string firstname, string lastname, string phone, string price, string currency);
     }
-    public static class Endpoints {
-        public const string Asseco = "https://entegrasyon.asseco-see.com.tr/fim/api";
-        public const string Akbank = "https://www.sanalakpos.com/fim/api";
-        public const string Isbank = "https://spos.isbank.com.tr/fim/api";
-        public const string Ziraatbank = "https://sanalpos2.ziraatbank.com.tr/fim/api";
-        public const string Halkbank = "https://sanalpos.halkbank.com.tr/fim/api";
-        public const string Finansbank = "https://www.fbwebpos.com/fim/api";
-        public const string Teb = "https://sanalpos.teb.com.tr/fim/api";
-    }
     public class Nestpay : INestpay {
+        public static class Endpoints {
+            public const string Asseco = "https://entegrasyon.asseco-see.com.tr/fim/api";
+            public const string Akbank = "https://www.sanalakpos.com/fim/api";
+            public const string Isbank = "https://spos.isbank.com.tr/fim/api";
+            public const string Ziraatbank = "https://sanalpos2.ziraatbank.com.tr/fim/api";
+            public const string Halkbank = "https://sanalpos.halkbank.com.tr/fim/api";
+            public const string Finansbank = "https://www.fbwebpos.com/fim/api";
+            public const string Teb = "https://sanalpos.teb.com.tr/fim/api";
+        }
         private string Endpoint { get; set; }
         private string ClientId { get; set; }
         private string Username { get; set; }
