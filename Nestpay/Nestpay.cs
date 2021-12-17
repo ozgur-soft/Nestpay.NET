@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 
 namespace Nestpay {
     public interface INestpay {
+        Nestpay.Endpoints GetEndpoints();
         void SetEndpoint(string endpoint);
         void SetClientId(string clientid);
         void SetUsername(string username);
@@ -14,7 +15,7 @@ namespace Nestpay {
         Nestpay.CC5Response Pay(string cardnumber, string cardmonth, string cardyear, string cardcode, string firstname, string lastname, string phone, string price, string currency);
     }
     public class Nestpay : INestpay {
-        public static class Endpoints {
+        public struct Endpoints {
             public const string Asseco = "https://entegrasyon.asseco-see.com.tr/fim/api";
             public const string Akbank = "https://www.sanalakpos.com/fim/api";
             public const string Isbank = "https://spos.isbank.com.tr/fim/api";
@@ -23,6 +24,7 @@ namespace Nestpay {
             public const string Finansbank = "https://www.fbwebpos.com/fim/api";
             public const string Teb = "https://sanalpos.teb.com.tr/fim/api";
         }
+        public Endpoints GetEndpoints() { return new Endpoints(); }
         private string Endpoint { get; set; }
         private string ClientId { get; set; }
         private string Username { get; set; }
