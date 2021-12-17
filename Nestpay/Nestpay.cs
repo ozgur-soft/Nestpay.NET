@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 
 namespace Nestpay {
     public interface INestpay {
+        void SetEndpoint(string endpoint);
         void SetClientId(string clientid);
         void SetUsername(string username);
         void SetPassword(string password);
