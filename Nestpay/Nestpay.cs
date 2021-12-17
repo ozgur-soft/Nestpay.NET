@@ -4,8 +4,6 @@ using System.Xml.Serialization;
 
 namespace Nestpay {
     public interface INestpay {
-        Nestpay.Endpoints GetEndpoints();
-        void SetEndpoint(string endpoint);
         void SetClientId(string clientid);
         void SetUsername(string username);
         void SetPassword(string password);
@@ -15,16 +13,6 @@ namespace Nestpay {
         Nestpay.CC5Response Pay(string cardnumber, string cardmonth, string cardyear, string cardcode, string firstname, string lastname, string phone, string price, string currency);
     }
     public class Nestpay : INestpay {
-        public struct Endpoints {
-            public const string Asseco = "https://entegrasyon.asseco-see.com.tr/fim/api";
-            public const string Akbank = "https://www.sanalakpos.com/fim/api";
-            public const string Isbank = "https://spos.isbank.com.tr/fim/api";
-            public const string Ziraatbank = "https://sanalpos2.ziraatbank.com.tr/fim/api";
-            public const string Halkbank = "https://sanalpos.halkbank.com.tr/fim/api";
-            public const string Finansbank = "https://www.fbwebpos.com/fim/api";
-            public const string Teb = "https://sanalpos.teb.com.tr/fim/api";
-        }
-        public Endpoints GetEndpoints() { return new Endpoints(); }
         private string Endpoint { get; set; }
         private string ClientId { get; set; }
         private string Username { get; set; }
@@ -32,7 +20,17 @@ namespace Nestpay {
         private string Mode { get; set; }
         private string Type { get; set; }
         private string IPv4 { get; set; }
-        public Nestpay() { }
+        public Nestpay(string bank) {
+            Endpoint = bank switch {
+                "Akbank" => "https://www.sanalakpos.com/fim/api",
+                "Isbank" => "https://spos.isbank.com.tr/fim/api",
+                "Ziraatbank" => "https://sanalpos2.ziraatbank.com.tr/fim/api",
+                "Halkbank" => "https://sanalpos.halkbank.com.tr/fim/api",
+                "Finansbank" => "https://www.fbwebpos.com/fim/api",
+                "Teb" => "https://sanalpos.teb.com.tr/fim/api",
+                _ => null
+            };
+        }
         [Serializable, XmlRoot("CC5Request")]
         public class CC5Request {
             [XmlElement("Mode", IsNullable = false)]
@@ -130,9 +128,6 @@ namespace Nestpay {
         }
         public class Writer : StringWriter {
             public override Encoding Encoding => Encoding.UTF8;
-        }
-        public void SetEndpoint(string endpoint) {
-            Endpoint = endpoint;
         }
         public void SetClientId(string clientid) {
             ClientId = clientid;
