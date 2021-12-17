@@ -7,13 +7,27 @@ namespace Nestpay {
         void SetClientId(string clientid);
         void SetUsername(string username);
         void SetPassword(string password);
+        void SetMode(string mode);
+        void SetType(string type);
         void SetIPv4(string ipv4);
         Nestpay.CC5Response Pay(string cardnumber, string cardmonth, string cardyear, string cardcode, string firstname, string lastname, string phone, string price, string currency);
     }
+    public static class Endpoints {
+        public const string Asseco = "https://entegrasyon.asseco-see.com.tr/fim/api";
+        public const string Akbank = "https://www.sanalakpos.com/fim/api";
+        public const string Isbank = "https://spos.isbank.com.tr/fim/api";
+        public const string Ziraatbank = "https://sanalpos2.ziraatbank.com.tr/fim/api";
+        public const string Halkbank = "https://sanalpos.halkbank.com.tr/fim/api";
+        public const string Finansbank = "https://www.fbwebpos.com/fim/api";
+        public const string Teb = "https://sanalpos.teb.com.tr/fim/api";
+    }
     public class Nestpay : INestpay {
+        private string Endpoint { get; set; }
         private string ClientId { get; set; }
         private string Username { get; set; }
         private string Password { get; set; }
+        private string Mode { get; set; }
+        private string Type { get; set; }
         private string IPv4 { get; set; }
         public Nestpay() { }
         [Serializable, XmlRoot("CC5Request")]
@@ -114,6 +128,9 @@ namespace Nestpay {
         public class Writer : StringWriter {
             public override Encoding Encoding => Encoding.UTF8;
         }
+        public void SetEndpoint(string endpoint) {
+            Endpoint = endpoint;
+        }
         public void SetClientId(string clientid) {
             ClientId = clientid;
         }
@@ -123,13 +140,19 @@ namespace Nestpay {
         public void SetPassword(string password) {
             Password = password;
         }
+        public void SetMode(string mode) {
+            Mode = mode;
+        }
+        public void SetType(string type) {
+            Type = type;
+        }
         public void SetIPv4(string ipv4) {
             IPv4 = ipv4;
         }
         public CC5Response Pay(string cardnumber, string cardmonth, string cardyear, string cardcode, string firstname, string lastname, string phone, string price, string currency) {
             var data = new CC5Request {
-                Mode = "P",
-                Type = "Auth",
+                Mode = Mode ?? "P",
+                Type = Type ?? "Auth",
                 ClientID = ClientId,
                 Username = Username,
                 Password = Password,
@@ -149,7 +172,7 @@ namespace Nestpay {
             cc5request.Serialize(writer, data, ns);
             try {
                 var http = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://www.sanalakpos.com/fim/api") {
+                var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
                     Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
                 };
                 var response = http.Send(request);
