@@ -1,4 +1,4 @@
-[![license](https://img.shields.io/:license-mit-blue.svg)](https://github.com/ozgur-soft/Nestpay.NET/blob/master/LICENSE.md)
+[![license](https://img.shields.io/:license-mit-blue.svg)](https://github.com/ozgur-soft/Nestpay.NET/blob/main/LICENSE.md)
 
 # Nestpay.NET
 NestPay (EST) (Asseco, Akbank, İş Bankası, Ziraat Bankası, Halkbank, Finansbank, TEB) Sanal POS API with .NET
