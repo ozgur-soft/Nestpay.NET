@@ -11,7 +11,7 @@ dotnet add package Nestpay --version 1.0.5
 ```c#
 using Nestpay;
 
-var nestpay = new Nestpay.Nestpay("Akbank"); // "Akbank","Isbank","Ziraatbank","Halkbank","Finansbank","Teb"
+var nestpay = new Nestpay("Akbank"); // "Akbank","Isbank","Ziraatbank","Halkbank","Finansbank","Teb"
 nestpay.SetClientId("API clientid");
 nestpay.SetUsername("API username");
 nestpay.SetPassword("API password");
