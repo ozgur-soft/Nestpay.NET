@@ -1,11 +1,11 @@
 [![license](https://img.shields.io/:license-mit-blue.svg)](https://github.com/ozgur-soft/Nestpay.NET/blob/main/LICENSE.md)
 
 # Nestpay.NET
-NestPay (EST) (Asseco, Akbank, İş Bankası, Ziraat Bankası, Halkbank, Finansbank, TEB) Sanal POS API with .NET
+NestPay (EST) (Asseco, Akbank, İş Bankası, Ziraat Bankası, Halkbank, Finansbank, TEB) Virtual POS API with .NET
 
 # Installation
 ```bash
-dotnet add package Nestpay --version 1.0.5
+dotnet add package Nestpay --version 1.0.6
 ```
 
 # Usage
