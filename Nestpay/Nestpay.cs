@@ -58,9 +58,9 @@ namespace Nestpay {
             [XmlElement("Number", IsNullable = false)]
             public string CardNumber { init; get; }
             [XmlElement("Expires", IsNullable = false)]
-            public string CardExpires { init; get; }
+            public string CardExpiry { init; get; }
             [XmlElement("Cvv2Val", IsNullable = false)]
-            public string CardCvc { init; get; }
+            public string CardCode { init; get; }
             [XmlElement("Total", IsNullable = false)]
             public string Amount { init; get; }
             [XmlElement("Currency", IsNullable = false)]
@@ -157,8 +157,8 @@ namespace Nestpay {
                 IPAddress = IPv4,
                 BillTo = new To { Name = firstname + " " + lastname, TelVoice = phone ?? "" },
                 CardNumber = cardnumber,
-                CardExpires = cardmonth + "/" + cardyear,
-                CardCvc = cardcode,
+                CardExpiry = cardmonth + "/" + cardyear,
+                CardCode = cardcode,
                 Amount = price,
                 Currency = currency,
             };
