@@ -4,22 +4,41 @@ using System.Xml.Serialization;
 
 namespace Nestpay {
     public interface INestpay {
-        void SetClientId(string clientid);
+        void SetMode(string mode);
+        void SetClientID(string clientid);
         void SetUsername(string username);
         void SetPassword(string password);
-        void SetMode(string mode);
-        void SetType(string type);
         void SetIPv4(string ipv4);
-        Nestpay.CC5Response Pay(string cardnumber, string cardmonth, string cardyear, string cardcode, string firstname, string lastname, string phone, string price, string currency);
+        void SetOrderID(string orderid);
+        void SetAmount(string amount, string currency);
+        void SetInstallment(string installment);
+        void SetCardHolder(string firstname, string lastname);
+        void SetPhoneNumber(string phonenumber);
+        void SetCardNumber(string cardnumber);
+        void SetCardExpiry(string cardmonth, string cardyear);
+        void SetCardCode(string cardcode);
+        Nestpay.CC5Response Pay();
+        Nestpay.CC5Response Refund();
+        Nestpay.CC5Response Cancel();
     }
     public class Nestpay : INestpay {
         private string Endpoint { get; set; }
-        private string ClientId { get; set; }
+        private string Mode { get; set; }
+        private string ClientID { get; set; }
         private string Username { get; set; }
         private string Password { get; set; }
-        private string Mode { get; set; }
-        private string Type { get; set; }
         private string IPv4 { get; set; }
+        private string OrderID { get; set; }
+        private string Amount { get; set; }
+        private string Currency { get; set; }
+        private string Installment { get; set; }
+        private string FirstName { get; set; }
+        private string LastName { get; set; }
+        private string PhoneNumber { get; set; }
+        private string CardNumber { get; set; }
+        private string CardMonth { get; set; }
+        private string CardYear { get; set; }
+        private string CardCode { get; set; }
         public Nestpay(string bank) {
             Endpoint = bank switch {
                 "Akbank" => "https://www.sanalakpos.com/fim/api",
@@ -129,8 +148,11 @@ namespace Nestpay {
         public class Writer : StringWriter {
             public override Encoding Encoding => Encoding.UTF8;
         }
-        public void SetClientId(string clientid) {
-            ClientId = clientid;
+        public void SetMode(string mode) {
+            Mode = mode;
+        }
+        public void SetClientID(string clientid) {
+            ClientID = clientid;
         }
         public void SetUsername(string username) {
             Username = username;
@@ -138,29 +160,128 @@ namespace Nestpay {
         public void SetPassword(string password) {
             Password = password;
         }
-        public void SetMode(string mode) {
-            Mode = mode;
-        }
-        public void SetType(string type) {
-            Type = type;
-        }
         public void SetIPv4(string ipv4) {
             IPv4 = ipv4;
         }
-        public CC5Response Pay(string cardnumber, string cardmonth, string cardyear, string cardcode, string firstname, string lastname, string phone, string price, string currency) {
+        public void SetOrderID(string orderid) {
+            OrderID = orderid;
+        }
+        public void SetAmount(string amount, string currency) {
+            Amount = amount;
+            Currency = currency switch {
+                "TRY" => "949",
+                "YTL" => "949",
+                "TRL" => "949",
+                "TL" => "949",
+                "USD" => "840",
+                "EUR" => "978",
+                "GBP" => "826",
+                "JPY" => "392",
+                _ => null
+            };
+        }
+        public void SetInstallment(string installment) {
+            Installment = installment;
+        }
+        public void SetCardHolder(string firstname, string lastname) {
+            FirstName = firstname;
+            LastName = lastname;
+        }
+        public void SetPhoneNumber(string phonenumber) {
+            PhoneNumber = phonenumber;
+        }
+        public void SetCardNumber(string cardnumber) {
+            CardNumber = cardnumber;
+        }
+        public void SetCardExpiry(string cardmonth, string cardyear) {
+            CardMonth = cardmonth;
+            CardYear = cardyear;
+        }
+        public void SetCardCode(string cardcode) {
+            CardCode = cardcode;
+        }
+        public CC5Response Pay() {
             var data = new CC5Request {
                 Mode = Mode ?? "P",
-                Type = Type ?? "Auth",
-                ClientID = ClientId,
+                Type = "Auth",
+                ClientID = ClientID,
                 Username = Username,
                 Password = Password,
                 IPAddress = IPv4,
-                BillTo = new To { Name = firstname + " " + lastname, TelVoice = phone ?? "" },
-                CardNumber = cardnumber,
-                CardExpiry = cardmonth + "/" + cardyear,
-                CardCode = cardcode,
-                Amount = price,
-                Currency = currency,
+                BillTo = new To { Name = FirstName + " " + LastName, TelVoice = PhoneNumber ?? "" },
+                CardNumber = CardNumber,
+                CardExpiry = CardMonth + "/" + CardYear,
+                CardCode = CardCode,
+                Amount = Amount,
+                Currency = Currency,
+            };
+            var cc5request = new XmlSerializer(typeof(CC5Request));
+            var cc5response = new XmlSerializer(typeof(CC5Response));
+            var writer = new Writer();
+            var ns = new XmlSerializerNamespaces();
+            ns.Add(string.Empty, string.Empty);
+            cc5request.Serialize(writer, data, ns);
+            try {
+                var http = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
+                    Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
+                };
+                var response = http.Send(request);
+                var result = (CC5Response)cc5response.Deserialize(response.Content.ReadAsStream());
+                return result;
+            } catch (Exception err) {
+                if (err.InnerException != null) {
+                    Console.WriteLine(err.InnerException.Message);
+                } else {
+                    Console.WriteLine(err.Message);
+                }
+            }
+            return null;
+        }
+        public CC5Response Refund() {
+            var data = new CC5Request {
+                Mode = Mode ?? "P",
+                Type = "Credit",
+                ClientID = ClientID,
+                Username = Username,
+                Password = Password,
+                OrderID = OrderID,
+                Amount = Amount,
+                Currency = Currency,
+            };
+            var cc5request = new XmlSerializer(typeof(CC5Request));
+            var cc5response = new XmlSerializer(typeof(CC5Response));
+            var writer = new Writer();
+            var ns = new XmlSerializerNamespaces();
+            ns.Add(string.Empty, string.Empty);
+            cc5request.Serialize(writer, data, ns);
+            try {
+                var http = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
+                    Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
+                };
+                var response = http.Send(request);
+                var result = (CC5Response)cc5response.Deserialize(response.Content.ReadAsStream());
+                return result;
+            } catch (Exception err) {
+                if (err.InnerException != null) {
+                    Console.WriteLine(err.InnerException.Message);
+                } else {
+                    Console.WriteLine(err.Message);
+                }
+            }
+            return null;
+        }
+        public CC5Response Cancel() {
+            var data = new CC5Request {
+                Mode = Mode ?? "P",
+                Type = "Void",
+                ClientID = ClientID,
+                Username = Username,
+                Password = Password,
+                OrderID = OrderID,
+                Amount = Amount,
+                Currency = Currency,
             };
             var cc5request = new XmlSerializer(typeof(CC5Request));
             var cc5response = new XmlSerializer(typeof(CC5Response));
