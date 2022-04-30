@@ -5,7 +5,7 @@ NestPay (EST) (Asseco, Akbank, İş Bankası, Ziraat Bankası, Halkbank, Finansb
 
 # Installation
 ```bash
-dotnet add package Nestpay --version 1.0.6
+dotnet add package Nestpay --version 1.1.0
 ```
 
 # Sanalpos satış işlemi
@@ -24,7 +24,7 @@ namespace Nestpay {
             nestpay.SetInstallment(""); // Taksit sayısı (varsa)
             nestpay.SetCardHolder("Ad", "Soyad"); // Kart sahibi
             nestpay.SetPhoneNumber(""); // Müşteri telefon numarası
-            nestpay.SetIPv4(""); // Müşteri IP adresi (zorunlu)
+            nestpay.SetIPv4("1.2.3.4"); // Müşteri IP adresi (zorunlu)
             var response = nestpay.Pay();
             if (response != null) {
                 Console.WriteLine(Nestpay.JsonString<Nestpay.CC5Response>(response));
