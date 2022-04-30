@@ -22,7 +22,7 @@ namespace Nestpay {
             nestpay.SetCardCode("123"); // Cvv2 Kodu (kartın arka yüzündeki 3 haneli numara)
             nestpay.SetAmount("1.00", "TRY"); // Satış tutarı ve para birimi
             nestpay.SetInstallment(""); // Taksit sayısı (varsa)
-            nestpay.SetCardHolder("Ad", "Soyad"); // Kart sahibi
+            nestpay.SetCardHolder(""); // Kart sahibi
             nestpay.SetPhoneNumber(""); // Müşteri telefon numarası
             nestpay.SetIPv4("1.2.3.4"); // Müşteri IP adresi (zorunlu)
             var response = nestpay.Pay();
