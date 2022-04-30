@@ -14,7 +14,7 @@ namespace Nestpay {
         void SetOrderID(string orderid);
         void SetAmount(string amount, string currency);
         void SetInstallment(string installment);
-        void SetCardHolder(string firstname, string lastname);
+        void SetCardHolder(string cardholder);
         void SetPhoneNumber(string phonenumber);
         void SetCardNumber(string cardnumber);
         void SetCardExpiry(string cardmonth, string cardyear);
@@ -34,8 +34,7 @@ namespace Nestpay {
         private string Amount { get; set; }
         private string Currency { get; set; }
         private string Installment { get; set; }
-        private string FirstName { get; set; }
-        private string LastName { get; set; }
+        private string CardHolder { get; set; }
         private string PhoneNumber { get; set; }
         private string CardNumber { get; set; }
         private string CardMonth { get; set; }
@@ -185,9 +184,8 @@ namespace Nestpay {
         public void SetInstallment(string installment) {
             Installment = installment;
         }
-        public void SetCardHolder(string firstname, string lastname) {
-            FirstName = firstname;
-            LastName = lastname;
+        public void SetCardHolder(string cardholder) {
+            CardHolder = cardholder;
         }
         public void SetPhoneNumber(string phonenumber) {
             PhoneNumber = phonenumber;
@@ -210,7 +208,7 @@ namespace Nestpay {
                 Username = Username,
                 Password = Password,
                 IPAddress = IPv4,
-                BillTo = new To { Name = FirstName + " " + LastName, TelVoice = PhoneNumber ?? "" },
+                BillTo = new To { Name = CardHolder, TelVoice = PhoneNumber ?? "" },
                 CardNumber = CardNumber,
                 CardExpiry = CardMonth + "/" + CardYear,
                 CardCode = CardCode,
