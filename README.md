@@ -13,7 +13,7 @@ dotnet add package Nestpay --version 1.0.6
 namespace Nestpay {
     internal class Program {
         static void Main(string[] args) {
-            var nestpay = new Nestpay(""); // Banka adı : "akbank","isbank","ziraatbank","halkbank","finansbank","teb"
+            var nestpay = new Nestpay(""); // Banka adı : "Akbank","Isbank","Ziraatbank","Halkbank","Finansbank","Teb"
             nestpay.SetClientID(""); // Müşteri no
             nestpay.SetUsername(""); // Kullanıcı adı
             nestpay.SetPassword(""); // Kullanıcı şifresi
@@ -39,7 +39,7 @@ namespace Nestpay {
 namespace Nestpay {
     internal class Program {
         static void Main(string[] args) {
-            var nestpay = new Nestpay(""); // Banka adı : "akbank","isbank","ziraatbank","halkbank","finansbank","teb"
+            var nestpay = new Nestpay(""); // Banka adı : "Akbank","Isbank","Ziraatbank","Halkbank","Finansbank","Teb"
             nestpay.SetClientID(""); // Müşteri no
             nestpay.SetUsername(""); // Kullanıcı adı
             nestpay.SetPassword(""); // Kullanıcı şifresi
@@ -59,7 +59,7 @@ namespace Nestpay {
 namespace Nestpay {
     internal class Program {
         static void Main(string[] args) {
-            var nestpay = new Nestpay(""); // Banka adı : "akbank","isbank","ziraatbank","halkbank","finansbank","teb"
+            var nestpay = new Nestpay(""); // Banka adı : "Akbank","Isbank","Ziraatbank","Halkbank","Finansbank","Teb"
             nestpay.SetClientID(""); // Müşteri no
             nestpay.SetUsername(""); // Kullanıcı adı
             nestpay.SetPassword(""); // Kullanıcı şifresi
