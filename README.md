@@ -8,24 +8,68 @@ NestPay (EST) (Asseco, Akbank, İş Bankası, Ziraat Bankası, Halkbank, Finansb
 dotnet add package Nestpay --version 1.0.6
 ```
 
-# Usage
+# Sanalpos satış işlemi
 ```c#
-using Nestpay;
+namespace Nestpay {
+    internal class Program {
+        static void Main(string[] args) {
+            var nestpay = new Nestpay(""); // Banka adı : "akbank","isbank","ziraatbank","halkbank","finansbank","teb"
+            nestpay.SetClientID(""); // Müşteri no
+            nestpay.SetUsername(""); // Kullanıcı adı
+            nestpay.SetPassword(""); // Kullanıcı şifresi
+            nestpay.SetCardNumber("4242424242424242"); // Kart numarası
+            nestpay.SetCardExpiry("02", "20"); // Son kullanma tarihi (Ay ve Yılın son 2 hanesi)
+            nestpay.SetCardCode("123"); // Cvv2 Kodu (kartın arka yüzündeki 3 haneli numara)
+            nestpay.SetAmount("1.00", "TRY"); // Satış tutarı ve para birimi
+            nestpay.SetInstallment(""); // Taksit sayısı (varsa)
+            nestpay.SetCardHolder("Ad", "Soyad"); // Kart sahibi
+            nestpay.SetPhoneNumber(""); // Müşteri telefon numarası
+            nestpay.SetIPv4(""); // Müşteri IP adresi (zorunlu)
+            var response = nestpay.Pay();
+            if (response != null) {
+                Console.WriteLine(Nestpay.JsonString<Nestpay.CC5Response>(response));
+            }
+        }
+    }
+}
+```
 
-var nestpay = new Nestpay("Akbank"); // "Akbank","Isbank","Ziraatbank","Halkbank","Finansbank","Teb"
-nestpay.SetClientId("API clientid");
-nestpay.SetUsername("API username");
-nestpay.SetPassword("API password");
-nestpay.SetIPv4("Customer IPv4 address");
-nestpay.Pay(
-    "Credit card number (Eg: 4321432143214321)",
-    "Card month (Eg: 02)",
-    "Card year (Eg: 22)",
-    "Card security code: (Eg: 123)",
-    "Customer firstname",
-    "Customer lastname",
-    "Customer phone number",
-    "Amount (Eg: 1.00)",
-    "Currency code ( $: 840 || €: 978 || ₺: 949 )"
-);
+# Sanalpos iade işlemi
+```c#
+namespace Nestpay {
+    internal class Program {
+        static void Main(string[] args) {
+            var nestpay = new Nestpay(""); // Banka adı : "akbank","isbank","ziraatbank","halkbank","finansbank","teb"
+            nestpay.SetClientID(""); // Müşteri no
+            nestpay.SetUsername(""); // Kullanıcı adı
+            nestpay.SetPassword(""); // Kullanıcı şifresi
+            nestpay.SetAmount("1.00", "TRY"); // İade tutarı ve para birimi
+            nestpay.SetOrderID("ORDER-"); // Sipariş numarası
+            var response = nestpay.Refund();
+            if (response != null) {
+                Console.WriteLine(Nestpay.JsonString<Nestpay.CC5Response>(response));
+            }
+        }
+    }
+}
+```
+
+# Sanalpos iptal işlemi
+```c#
+namespace Nestpay {
+    internal class Program {
+        static void Main(string[] args) {
+            var nestpay = new Nestpay(""); // Banka adı : "akbank","isbank","ziraatbank","halkbank","finansbank","teb"
+            nestpay.SetClientID(""); // Müşteri no
+            nestpay.SetUsername(""); // Kullanıcı adı
+            nestpay.SetPassword(""); // Kullanıcı şifresi
+            nestpay.SetAmount("1.00", "TRY"); // İptal tutarı ve para birimi
+            nestpay.SetOrderID("ORDER-"); // Sipariş numarası
+            var response = nestpay.Cancel();
+            if (response != null) {
+                Console.WriteLine(Nestpay.JsonString<Nestpay.CC5Response>(response));
+            }
+        }
+    }
+}
 ```
