@@ -5,7 +5,7 @@ NestPay (EST) (Asseco, Akbank, İş Bankası, Ziraat Bankası, Halkbank, Finansb
 
 # Installation
 ```bash
-dotnet add package Nestpay --version 1.1.1
+dotnet add package Nestpay --version 1.1.2
 ```
 
 # Sanalpos satış işlemi
