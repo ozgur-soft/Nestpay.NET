@@ -217,16 +217,16 @@ namespace Nestpay {
             };
             var cc5request = new XmlSerializer(typeof(CC5Request));
             var cc5response = new XmlSerializer(typeof(CC5Response));
-            var writer = new Writer();
+            using var writer = new Writer();
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
             cc5request.Serialize(writer, data, ns);
             try {
-                var http = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
+                using var http = new HttpClient();
+                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
                     Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
                 };
-                var response = http.Send(request);
+                using var response = http.Send(request);
                 var result = (CC5Response)cc5response.Deserialize(response.Content.ReadAsStream());
                 return result;
             } catch (Exception err) {
@@ -251,16 +251,16 @@ namespace Nestpay {
             };
             var cc5request = new XmlSerializer(typeof(CC5Request));
             var cc5response = new XmlSerializer(typeof(CC5Response));
-            var writer = new Writer();
+            using var writer = new Writer();
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
             cc5request.Serialize(writer, data, ns);
             try {
-                var http = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
+                using var http = new HttpClient();
+                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
                     Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
                 };
-                var response = http.Send(request);
+                using var response = http.Send(request);
                 var result = (CC5Response)cc5response.Deserialize(response.Content.ReadAsStream());
                 return result;
             } catch (Exception err) {
@@ -285,16 +285,16 @@ namespace Nestpay {
             };
             var cc5request = new XmlSerializer(typeof(CC5Request));
             var cc5response = new XmlSerializer(typeof(CC5Response));
-            var writer = new Writer();
+            using var writer = new Writer();
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
             cc5request.Serialize(writer, data, ns);
             try {
-                var http = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
+                using var http = new HttpClient();
+                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
                     Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
                 };
-                var response = http.Send(request);
+                using var response = http.Send(request);
                 var result = (CC5Response)cc5response.Deserialize(response.Content.ReadAsStream());
                 return result;
             } catch (Exception err) {
