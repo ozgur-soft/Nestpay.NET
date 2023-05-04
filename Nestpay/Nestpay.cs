@@ -17,21 +17,6 @@ namespace Nestpay {
     }
     public class Nestpay {
         private string Endpoint { get; set; }
-        private string Mode { get; set; }
-        private string ClientID { get; set; }
-        private string Username { get; set; }
-        private string Password { get; set; }
-        private string IPv4 { get; set; }
-        private string OrderID { get; set; }
-        private string Amount { get; set; }
-        private string Currency { get; set; }
-        private string Installment { get; set; }
-        private string CardHolder { get; set; }
-        private string PhoneNumber { get; set; }
-        private string CardNumber { get; set; }
-        private string CardMonth { get; set; }
-        private string CardYear { get; set; }
-        private string CardCode { get; set; }
         public Nestpay(Bank bank) {
             Endpoint = bank switch {
                 Bank.Asseco => "https://entegrasyon.asseco-see.com.tr",
@@ -56,15 +41,15 @@ namespace Nestpay {
             [XmlElement("Password", IsNullable = false)]
             public string Password { set; get; }
             [XmlElement("ClientId", IsNullable = false)]
-            public string ClientID { set; get; }
+            public string ClientId { set; get; }
             [XmlElement("OrderId", IsNullable = false)]
-            public string OrderID { set; get; }
+            public string OrderId { set; get; }
             [XmlElement("GroupId", IsNullable = false)]
-            public string GroupID { set; get; }
+            public string GroupId { set; get; }
             [XmlElement("TransId", IsNullable = false)]
-            public string TransID { set; get; }
+            public string TransId { set; get; }
             [XmlElement("UserId", IsNullable = false)]
-            public string UserID { set; get; }
+            public string UserId { set; get; }
             [XmlElement("IPAddress", IsNullable = false)]
             public string IPAddress { set; get; }
             [XmlElement("Email", IsNullable = false)]
@@ -101,7 +86,7 @@ namespace Nestpay {
                 };
             }
             internal void SetClientId(string clientid) {
-                ClientID = clientid;
+                ClientId = clientid;
             }
             internal void SetUsername(string username) {
                 Username = username;
@@ -113,7 +98,7 @@ namespace Nestpay {
                 IPAddress = ipv4;
             }
             internal void SetOrderId(string orderid) {
-                OrderID = orderid;
+                OrderId = orderid;
             }
             internal void SetAmount(string amount, string currency) {
                 Amount = amount;
