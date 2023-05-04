@@ -5,6 +5,16 @@ using System.Xml;
 using System.Xml.Serialization;
 
 namespace Nestpay {
+    public enum Bank {
+        Asseco,
+        Anadolu,
+        Akbank,
+        Isbank,
+        Ziraat,
+        Halkbank,
+        Finansbank,
+        Teb
+    }
     public interface INestpay {
         void SetMode(string mode);
         void SetClientID(string clientid);
@@ -40,14 +50,16 @@ namespace Nestpay {
         private string CardMonth { get; set; }
         private string CardYear { get; set; }
         private string CardCode { get; set; }
-        public Nestpay(string bank) {
+        public Nestpay(Bank bank) {
             Endpoint = bank switch {
-                "Akbank" => "https://www.sanalakpos.com/fim/api",
-                "Isbank" => "https://spos.isbank.com.tr/fim/api",
-                "Ziraatbank" => "https://sanalpos2.ziraatbank.com.tr/fim/api",
-                "Halkbank" => "https://sanalpos.halkbank.com.tr/fim/api",
-                "Finansbank" => "https://www.fbwebpos.com/fim/api",
-                "Teb" => "https://sanalpos.teb.com.tr/fim/api",
+                Bank.Asseco => "https://entegrasyon.asseco-see.com.tr",
+                Bank.Akbank => "https://www.sanalakpos.com",
+                Bank.Anadolu => "https://anadolusanalpos.est.com.tr",
+                Bank.Isbank => "https://spos.isbank.com.tr",
+                Bank.Ziraat => "https://sanalpos2.ziraatbank.com.tr",
+                Bank.Halkbank => "https://sanalpos.halkbank.com.tr",
+                Bank.Finansbank => "https://www.fbwebpos.com",
+                Bank.Teb => "https://sanalpos.teb.com.tr",
                 _ => null
             };
         }
@@ -87,7 +99,6 @@ namespace Nestpay {
             public string Currency { init; get; }
             [XmlElement("Instalment", IsNullable = false)]
             public string Installment { init; get; }
-
             [XmlElement("PayerTxnId", IsNullable = false)]
             public string PayerTxnId { init; get; }
             [XmlElement("PayerSecurityLevel", IsNullable = false)]
@@ -96,14 +107,11 @@ namespace Nestpay {
             public string PayerAuthenticationCode { init; get; }
             [XmlElement("CardholderPresentCode", IsNullable = false)]
             public string CardholderPresentCode { init; get; }
-
             [XmlElement("BillTo", IsNullable = false)]
             public To BillTo { init; get; }
-
             [XmlElement("ShipTo", IsNullable = false)]
             public To ShipTo { init; get; }
         }
-
         public class To {
             [XmlElement("Name", IsNullable = false)]
             public string Name { init; get; }
@@ -126,7 +134,6 @@ namespace Nestpay {
             [XmlElement("TelVoice", IsNullable = false)]
             public string TelVoice { init; get; }
         }
-
         [Serializable, XmlRoot("CC5Response")]
         public class CC5Response {
             [XmlElement("OrderId")]
@@ -150,7 +157,11 @@ namespace Nestpay {
             public override Encoding Encoding => Encoding.UTF8;
         }
         public void SetMode(string mode) {
-            Mode = mode;
+            Mode = mode switch {
+                "TEST" => "T",
+                "PROD" => "P",
+                _ => mode
+            };
         }
         public void SetClientID(string clientid) {
             ClientID = clientid;
@@ -214,6 +225,7 @@ namespace Nestpay {
                 CardCode = CardCode,
                 Amount = Amount,
                 Currency = Currency,
+                Installment = Installment,
             };
             var cc5request = new XmlSerializer(typeof(CC5Request));
             var cc5response = new XmlSerializer(typeof(CC5Response));
@@ -223,9 +235,7 @@ namespace Nestpay {
             cc5request.Serialize(writer, data, ns);
             try {
                 using var http = new HttpClient();
-                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
-                    Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
-                };
+                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint + "/fim/api") { Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml") };
                 using var response = http.Send(request);
                 var result = (CC5Response)cc5response.Deserialize(response.Content.ReadAsStream());
                 return result;
@@ -257,9 +267,7 @@ namespace Nestpay {
             cc5request.Serialize(writer, data, ns);
             try {
                 using var http = new HttpClient();
-                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
-                    Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
-                };
+                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint + "/fim/api") { Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml") };
                 using var response = http.Send(request);
                 var result = (CC5Response)cc5response.Deserialize(response.Content.ReadAsStream());
                 return result;
@@ -291,9 +299,7 @@ namespace Nestpay {
             cc5request.Serialize(writer, data, ns);
             try {
                 using var http = new HttpClient();
-                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint) {
-                    Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml")
-                };
+                using var request = new HttpRequestMessage(HttpMethod.Post, Endpoint + "/fim/api") { Content = new StringContent(writer.ToString(), Encoding.UTF8, "text/xml") };
                 using var response = http.Send(request);
                 var result = (CC5Response)cc5response.Deserialize(response.Content.ReadAsStream());
                 return result;
