@@ -11,12 +11,11 @@ dotnet add package Nestpay --version 1.2.0
 namespace Nestpay {
     internal class Program {
         static void Main(string[] args) {
-            var nestpay = new Nestpay(Bank.Asseco); // Banka adı
+            var nestpay = new Nestpay(MODE.TEST, BANK.Asseco); // Banka adı
+            nestpay.SetClientId("100100000"); // Müşteri no
+            nestpay.SetUsername("AKTESTAPI"); // Kullanıcı adı
+            nestpay.SetPassword("AKBANK01"); // Kullanıcı şifresi
             var request = new Nestpay.CC5Request();
-            request.SetMode("TEST"); // Çalışma ortamı ("PROD" - "TEST")
-            request.SetClientId("100100000"); // Müşteri no
-            request.SetUsername("AKTESTAPI"); // Kullanıcı adı
-            request.SetPassword("AKBANK01"); // Kullanıcı şifresi
             request.SetCardNumber("4355084355084358"); // Kart numarası
             request.SetCardExpiry("12", "30"); // Son kullanma tarihi (Ay ve Yılın son 2 hanesi)
             request.SetCardCode("000"); // Cvv2 Kodu (kartın arka yüzündeki 3 haneli numara)
