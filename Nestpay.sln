@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.32014.148
+VisualStudioVersion = 17.6.33626.354
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nestpay", "Nestpay\Nestpay.csproj", "{3B799A9C-D4D0-4B1E-AB28-4A0FAF0E8666}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nestpay", "Nestpay.csproj", "{A30FFB44-6348-409B-B002-9BA088956E9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3B799A9C-D4D0-4B1E-AB28-4A0FAF0E8666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B799A9C-D4D0-4B1E-AB28-4A0FAF0E8666}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B799A9C-D4D0-4B1E-AB28-4A0FAF0E8666}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B799A9C-D4D0-4B1E-AB28-4A0FAF0E8666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A30FFB44-6348-409B-B002-9BA088956E9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A30FFB44-6348-409B-B002-9BA088956E9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A30FFB44-6348-409B-B002-9BA088956E9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A30FFB44-6348-409B-B002-9BA088956E9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7667463D-3184-4E98-8966-67087468E12C}
+		SolutionGuid = {BF921618-A34A-42C5-BE2B-604E160D056E}
 	EndGlobalSection
 EndGlobal
