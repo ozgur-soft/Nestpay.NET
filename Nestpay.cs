@@ -22,9 +22,9 @@ namespace Nestpay {
     public class Nestpay {
         public string Mode { set; get; }
         public string Endpoint { get; set; }
+        public string ClientId { set; get; }
         public string Username { set; get; }
         public string Password { set; get; }
-        public string ClientId { set; get; }
         internal void SetClientId(string clientid) {
             ClientId = clientid;
         }
@@ -177,28 +177,44 @@ namespace Nestpay {
         public class Writer : StringWriter {
             public override Encoding Encoding => Encoding.UTF8;
         }
-        public CC5Response Auth(CC5Request data) {
-            data.Type = "Auth";
+        public CC5Response PreAuth(CC5Request data) {
             data.Mode = Mode;
             data.ClientId = ClientId;
             data.Username = Username;
             data.Password = Password;
+            data.Type = "PreAuth";
+            return _Transaction(data);
+        }
+        public CC5Response PostAuth(CC5Request data) {
+            data.Mode = Mode;
+            data.ClientId = ClientId;
+            data.Username = Username;
+            data.Password = Password;
+            data.Type = "PostAuth";
+            return _Transaction(data);
+        }
+        public CC5Response Auth(CC5Request data) {
+            data.Mode = Mode;
+            data.ClientId = ClientId;
+            data.Username = Username;
+            data.Password = Password;
+            data.Type = "Auth";
             return _Transaction(data);
         }
         public CC5Response Refund(CC5Request data) {
-            data.Type = "Credit";
             data.Mode = Mode;
             data.ClientId = ClientId;
             data.Username = Username;
             data.Password = Password;
+            data.Type = "Credit";
             return _Transaction(data);
         }
         public CC5Response Cancel(CC5Request data) {
-            data.Type = "Void";
             data.Mode = Mode;
             data.ClientId = ClientId;
             data.Username = Username;
             data.Password = Password;
+            data.Type = "Void";
             return _Transaction(data);
         }
         private CC5Response _Transaction(CC5Request data) {
