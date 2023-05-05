@@ -1,5 +1,5 @@
 # Nestpay.NET
-NestPay (EST) (Asseco, Akbank, İş Bankası, Ziraat Bankası, Halkbank, Finansbank, TEB) Virtual POS API with .NET
+Nestpay (EST) (Asseco) POS API with .NET
 
 # Installation
 ```bash
