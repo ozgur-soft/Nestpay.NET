@@ -183,7 +183,7 @@ namespace Nestpay {
             data.ClientId = ClientId;
             data.Username = Username;
             data.Password = Password;
-            return Transaction(data);
+            return _Transaction(data);
         }
         public CC5Response Refund(CC5Request data) {
             data.Type = "Credit";
@@ -191,7 +191,7 @@ namespace Nestpay {
             data.ClientId = ClientId;
             data.Username = Username;
             data.Password = Password;
-            return Transaction(data);
+            return _Transaction(data);
         }
         public CC5Response Cancel(CC5Request data) {
             data.Type = "Void";
@@ -199,9 +199,9 @@ namespace Nestpay {
             data.ClientId = ClientId;
             data.Username = Username;
             data.Password = Password;
-            return Transaction(data);
+            return _Transaction(data);
         }
-        public CC5Response Transaction(CC5Request data) {
+        private CC5Response _Transaction(CC5Request data) {
             var cc5request = new XmlSerializer(typeof(CC5Request));
             var cc5response = new XmlSerializer(typeof(CC5Response));
             using var writer = new Writer();
