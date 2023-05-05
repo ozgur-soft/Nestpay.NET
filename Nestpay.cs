@@ -6,8 +6,8 @@ using System.Xml.Serialization;
 
 namespace Nestpay {
     public enum MODE {
-        PROD,
-        TEST
+        Test,
+        Prod
     }
     public enum BANK {
         Asseco,
@@ -36,8 +36,8 @@ namespace Nestpay {
         }
         public Nestpay(MODE mode, BANK bank) {
             Mode = mode switch {
-                MODE.PROD => "P",
-                MODE.TEST => "T",
+                MODE.Test => "T",
+                MODE.Prod => "P",
                 _ => null
             };
             Endpoint = bank switch {
