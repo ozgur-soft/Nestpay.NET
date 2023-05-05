@@ -3,11 +3,12 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<Version>1.3.0</Version>
 		<RepositoryUrl>https://github.com/ozgur-soft/Nestpay.NET</RepositoryUrl>
-		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Authors>Özgür Yalçın</Authors>
 		<Company>Özgürsoft</Company>
 		<Copyright>2022 Özgürsoft</Copyright>
 		<Description>Nestpay (EST) (Asseco) POS API with .NET</Description>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 	</PropertyGroup>
 </Project>
