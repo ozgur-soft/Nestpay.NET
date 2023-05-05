@@ -37,12 +37,11 @@ namespace Nestpay {
 namespace Nestpay {
     internal class Program {
         static void Main(string[] args) {
-            var nestpay = new Nestpay(Bank.Asseco); // Banka adı
+            var nestpay = new Nestpay(MODE.TEST, BANK.Asseco); // Banka adı
+            nestpay.SetClientId("100100000"); // Müşteri no
+            nestpay.SetUsername("AKTESTAPI"); // Kullanıcı adı
+            nestpay.SetPassword("AKBANK01"); // Kullanıcı şifresi
             var request = new Nestpay.CC5Request();
-            request.SetMode("TEST"); // Çalışma ortamı ("PROD" - "TEST")
-            request.SetClientId("100100000"); // Müşteri no
-            request.SetUsername("AKTESTAPI"); // Kullanıcı adı
-            request.SetPassword("AKBANK01"); // Kullanıcı şifresi
             request.SetAmount("1.00", "TRY"); // İade tutarı ve para birimi
             request.SetOrderId("ORDER-"); // Sipariş numarası
             var response = nestpay.Refund(request);
@@ -59,12 +58,11 @@ namespace Nestpay {
 namespace Nestpay {
     internal class Program {
         static void Main(string[] args) {
-            var nestpay = new Nestpay(Bank.Asseco); // Banka adı
+            var nestpay = new Nestpay(MODE.TEST, BANK.Asseco); // Banka adı
+            nestpay.SetClientId("100100000"); // Müşteri no
+            nestpay.SetUsername("AKTESTAPI"); // Kullanıcı adı
+            nestpay.SetPassword("AKBANK01"); // Kullanıcı şifresi
             var request = new Nestpay.CC5Request();
-            request.SetMode("TEST"); // Çalışma ortamı ("PROD" - "TEST")
-            request.SetClientId("100100000"); // Müşteri no
-            request.SetUsername("AKTESTAPI"); // Kullanıcı adı
-            request.SetPassword("AKBANK01"); // Kullanıcı şifresi
             request.SetOrderId("ORDER-"); // Sipariş numarası
             var response = nestpay.Cancel(request);
             if (response != null) {
