@@ -5,7 +5,11 @@ using System.Xml;
 using System.Xml.Serialization;
 
 namespace Nestpay {
-    public enum Bank {
+    public enum MODE {
+        PROD,
+        TEST
+    }
+    public enum BANK {
         Asseco,
         Anadolu,
         Akbank,
@@ -16,17 +20,35 @@ namespace Nestpay {
         Teb
     }
     public class Nestpay {
-        private string Endpoint { get; set; }
-        public Nestpay(Bank bank) {
+        public string Mode { set; get; }
+        public string Endpoint { get; set; }
+        public string Username { set; get; }
+        public string Password { set; get; }
+        public string ClientId { set; get; }
+        internal void SetClientId(string clientid) {
+            ClientId = clientid;
+        }
+        internal void SetUsername(string username) {
+            Username = username;
+        }
+        internal void SetPassword(string password) {
+            Password = password;
+        }
+        public Nestpay(MODE mode, BANK bank) {
+            Mode = mode switch {
+                MODE.PROD => "P",
+                MODE.TEST => "T",
+                _ => null
+            };
             Endpoint = bank switch {
-                Bank.Asseco => "https://entegrasyon.asseco-see.com.tr",
-                Bank.Akbank => "https://www.sanalakpos.com",
-                Bank.Anadolu => "https://anadolusanalpos.est.com.tr",
-                Bank.Isbank => "https://spos.isbank.com.tr",
-                Bank.Ziraat => "https://sanalpos2.ziraatbank.com.tr",
-                Bank.Halkbank => "https://sanalpos.halkbank.com.tr",
-                Bank.Finansbank => "https://www.fbwebpos.com",
-                Bank.Teb => "https://sanalpos.teb.com.tr",
+                BANK.Asseco => "https://entegrasyon.asseco-see.com.tr",
+                BANK.Akbank => "https://www.sanalakpos.com",
+                BANK.Anadolu => "https://anadolusanalpos.est.com.tr",
+                BANK.Isbank => "https://spos.isbank.com.tr",
+                BANK.Ziraat => "https://sanalpos2.ziraatbank.com.tr",
+                BANK.Halkbank => "https://sanalpos.halkbank.com.tr",
+                BANK.Finansbank => "https://www.fbwebpos.com",
+                BANK.Teb => "https://sanalpos.teb.com.tr",
                 _ => null
             };
         }
@@ -78,22 +100,6 @@ namespace Nestpay {
             public To BillTo { set; get; }
             [XmlElement("ShipTo", IsNullable = false)]
             public To ShipTo { set; get; }
-            internal void SetMode(string mode) {
-                Mode = mode switch {
-                    "TEST" => "T",
-                    "PROD" => "P",
-                    _ => mode
-                };
-            }
-            internal void SetClientId(string clientid) {
-                ClientId = clientid;
-            }
-            internal void SetUsername(string username) {
-                Username = username;
-            }
-            internal void SetPassword(string password) {
-                Password = password;
-            }
             internal void SetIPv4(string ipv4) {
                 IPAddress = ipv4;
             }
@@ -173,14 +179,26 @@ namespace Nestpay {
         }
         public CC5Response Auth(CC5Request data) {
             data.Type = "Auth";
+            data.Mode = Mode;
+            data.ClientId = ClientId;
+            data.Username = Username;
+            data.Password = Password;
             return Transaction(data);
         }
         public CC5Response Refund(CC5Request data) {
             data.Type = "Credit";
+            data.Mode = Mode;
+            data.ClientId = ClientId;
+            data.Username = Username;
+            data.Password = Password;
             return Transaction(data);
         }
         public CC5Response Cancel(CC5Request data) {
             data.Type = "Void";
+            data.Mode = Mode;
+            data.ClientId = ClientId;
+            data.Username = Username;
+            data.Password = Password;
             return Transaction(data);
         }
         public CC5Response Transaction(CC5Request data) {
