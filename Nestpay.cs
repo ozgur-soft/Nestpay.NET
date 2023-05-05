@@ -25,13 +25,13 @@ namespace Nestpay {
         public string ClientId { set; get; }
         public string Username { set; get; }
         public string Password { set; get; }
-        internal void SetClientId(string clientid) {
+        public void SetClientId(string clientid) {
             ClientId = clientid;
         }
-        internal void SetUsername(string username) {
+        public void SetUsername(string username) {
             Username = username;
         }
-        internal void SetPassword(string password) {
+        public void SetPassword(string password) {
             Password = password;
         }
         public Nestpay(MODE mode, BANK bank) {
@@ -100,13 +100,13 @@ namespace Nestpay {
             public To BillTo { set; get; }
             [XmlElement("ShipTo", IsNullable = false)]
             public To ShipTo { set; get; }
-            internal void SetIPv4(string ipv4) {
+            public void SetIPv4(string ipv4) {
                 IPAddress = ipv4;
             }
-            internal void SetOrderId(string orderid) {
+            public void SetOrderId(string orderid) {
                 OrderId = orderid;
             }
-            internal void SetAmount(string amount, string currency) {
+            public void SetAmount(string amount, string currency) {
                 Amount = amount;
                 Currency = currency switch {
                     "TRY" => "949",
@@ -120,16 +120,16 @@ namespace Nestpay {
                     _ => currency
                 };
             }
-            internal void SetInstallment(string installment) {
+            public void SetInstallment(string installment) {
                 Installment = installment;
             }
-            internal void SetCardNumber(string cardnumber) {
+            public void SetCardNumber(string cardnumber) {
                 CardNumber = cardnumber;
             }
-            internal void SetCardExpiry(string cardmonth, string cardyear) {
+            public void SetCardExpiry(string cardmonth, string cardyear) {
                 CardExpiry = cardmonth + "/" + cardyear;
             }
-            internal void SetCardCode(string cardcode) {
+            public void SetCardCode(string cardcode) {
                 CardCode = cardcode;
             }
         }
