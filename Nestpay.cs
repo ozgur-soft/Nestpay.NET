@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -63,7 +64,7 @@ namespace Nestpay {
             public string Mode { set; get; }
             [FormElement("islemtipi")]
             [XmlElement("Type", IsNullable = false)]
-            public string Type { set; get; }
+            public string TransactionType { set; get; }
             [FormElement("storetype")]
             [XmlIgnore]
             public string StoreType { set; get; }
@@ -120,7 +121,7 @@ namespace Nestpay {
             public string CardholderPresentCode { set; get; }
             [FormElement("rnd")]
             [XmlIgnore]
-            public string Rnd { set; get; }
+            public string Random { set; get; }
             [FormElement("hash")]
             [XmlIgnore]
             public string Hash { set; get; }
@@ -222,12 +223,16 @@ namespace Nestpay {
         public class Writer : StringWriter {
             public override Encoding Encoding => Encoding.UTF8;
         }
+        public static string Hash(string data) {
+            var sha1 = BitConverter.ToString(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(data))).Replace("-", "").ToLowerInvariant();
+            return sha1;
+        }
         public CC5Response PreAuth(CC5Request data) {
             data.Mode = Mode;
             data.ClientId = ClientId;
             data.Username = Username;
             data.Password = Password;
-            data.Type = "PreAuth";
+            data.TransactionType = "PreAuth";
             return _Transaction(data);
         }
         public CC5Response PostAuth(CC5Request data) {
@@ -235,7 +240,7 @@ namespace Nestpay {
             data.ClientId = ClientId;
             data.Username = Username;
             data.Password = Password;
-            data.Type = "PostAuth";
+            data.TransactionType = "PostAuth";
             return _Transaction(data);
         }
         public CC5Response Auth(CC5Request data) {
@@ -243,7 +248,7 @@ namespace Nestpay {
             data.ClientId = ClientId;
             data.Username = Username;
             data.Password = Password;
-            data.Type = "Auth";
+            data.TransactionType = "Auth";
             return _Transaction(data);
         }
         public CC5Response Refund(CC5Request data) {
@@ -251,7 +256,7 @@ namespace Nestpay {
             data.ClientId = ClientId;
             data.Username = Username;
             data.Password = Password;
-            data.Type = "Credit";
+            data.TransactionType = "Credit";
             return _Transaction(data);
         }
         public CC5Response Cancel(CC5Request data) {
@@ -259,7 +264,7 @@ namespace Nestpay {
             data.ClientId = ClientId;
             data.Username = Username;
             data.Password = Password;
-            data.Type = "Void";
+            data.TransactionType = "Void";
             return _Transaction(data);
         }
         public Dictionary<string, string> AuthForm(CC5Request data) {
@@ -267,7 +272,8 @@ namespace Nestpay {
             data.ClientId = ClientId;
             data.Username = Username;
             data.Password = Password;
-            data.Type = "Auth";
+            data.TransactionType = "Auth";
+            data.Hash = Hash(data.ClientId + data.OrderId + data.Amount + data.OkUrl + data.FailUrl + data.TransactionType + data.Installment + data.Random + StoreKey);
             var form = new Dictionary<string, string>();
             var root_elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
             foreach (var element in root_elements) {
