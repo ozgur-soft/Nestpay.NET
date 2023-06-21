@@ -61,6 +61,7 @@ namespace Nestpay {
             [XmlElement("Type", IsNullable = false)]
             public string Type { set; get; }
             [FormElement("storetype")]
+            [XmlIgnore]
             public string StoreType { set; get; }
             [XmlElement("Name", IsNullable = false)]
             public string Username { set; get; }
@@ -88,8 +89,10 @@ namespace Nestpay {
             [XmlElement("Expires", IsNullable = false)]
             public string CardExpiry { set; get; }
             [FormElement("Ecom_Payment_Card_ExpDate_Month")]
+            [XmlIgnore]
             public string CardMonth { set; get; }
             [FormElement("Ecom_Payment_Card_ExpDate_Year")]
+            [XmlIgnore]
             public string CardYear { set; get; }
             [FormElement("cv2")]
             [XmlElement("Cvv2Val", IsNullable = false)]
@@ -112,12 +115,16 @@ namespace Nestpay {
             [XmlElement("CardholderPresentCode", IsNullable = false)]
             public string CardholderPresentCode { set; get; }
             [FormElement("rnd")]
+            [XmlIgnore]
             public string Rnd { set; get; }
             [FormElement("hash")]
+            [XmlIgnore]
             public string Hash { set; get; }
             [FormElement("okUrl")]
+            [XmlIgnore]
             public string OkUrl { set; get; }
             [FormElement("failUrl")]
+            [XmlIgnore]
             public string FailUrl { set; get; }
             [XmlElement("BillTo", IsNullable = false)]
             public To BillTo { set; get; }
