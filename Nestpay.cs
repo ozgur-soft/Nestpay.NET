@@ -35,7 +35,7 @@ namespace Nestpay {
         public void SetPassword(string password) {
             Password = password;
         }
-        public Nestpay(BANK bank, MODE mode) {
+        public Nestpay(MODE mode, BANK bank) {
             Mode = mode switch {
                 MODE.Test => "T",
                 MODE.Prod => "P",
