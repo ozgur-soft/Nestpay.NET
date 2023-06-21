@@ -226,13 +226,14 @@ namespace Nestpay {
         public static string Json<T>(T data) where T : class {
             return JsonSerializer.Serialize(data, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, WriteIndented = true });
         }
+        public static byte[] Byte(string data) {
+            return Encoding.ASCII.GetBytes(data);
+        }
         public static string Hex(byte[] data) {
-            var hex = BitConverter.ToString(data).Replace("-", "").ToUpperInvariant();
-            return hex;
+            return BitConverter.ToString(data).Replace("-", "").ToUpperInvariant();
         }
         public static string Hash(string data) {
-            var hash = Hex(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(data)));
-            return hash;
+            return Convert.ToBase64String(Byte(Hex(SHA1.Create().ComputeHash(Byte(data)))));
         }
         public CC5Response PreAuth(CC5Request data) {
             data.Mode = Mode;
