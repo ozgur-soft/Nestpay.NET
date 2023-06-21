@@ -214,7 +214,7 @@ namespace Nestpay {
             data.Username = Username;
             data.Password = Password;
             data.Type = "PreAuth";
-            return _Transaction(data);
+            return Transaction(data);
         }
         public CC5Response PostAuth(CC5Request data) {
             data.Mode = Mode;
@@ -222,7 +222,7 @@ namespace Nestpay {
             data.Username = Username;
             data.Password = Password;
             data.Type = "PostAuth";
-            return _Transaction(data);
+            return Transaction(data);
         }
         public CC5Response Auth(CC5Request data) {
             data.Mode = Mode;
@@ -230,7 +230,7 @@ namespace Nestpay {
             data.Username = Username;
             data.Password = Password;
             data.Type = "Auth";
-            return _Transaction(data);
+            return Transaction(data);
         }
         public CC5Response Refund(CC5Request data) {
             data.Mode = Mode;
@@ -238,7 +238,7 @@ namespace Nestpay {
             data.Username = Username;
             data.Password = Password;
             data.Type = "Credit";
-            return _Transaction(data);
+            return Transaction(data);
         }
         public CC5Response Cancel(CC5Request data) {
             data.Mode = Mode;
@@ -246,9 +246,9 @@ namespace Nestpay {
             data.Username = Username;
             data.Password = Password;
             data.Type = "Void";
-            return _Transaction(data);
+            return Transaction(data);
         }
-        private CC5Response _Transaction(CC5Request data) {
+        private CC5Response Transaction(CC5Request data) {
             var cc5request = new XmlSerializer(typeof(CC5Request));
             var cc5response = new XmlSerializer(typeof(CC5Response));
             using var writer = new Writer();
