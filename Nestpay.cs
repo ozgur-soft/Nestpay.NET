@@ -25,6 +25,7 @@ namespace Nestpay {
         public string ClientId { set; get; }
         public string Username { set; get; }
         public string Password { set; get; }
+        private string StoreKey { get; set; }
         public string Endpoint { get; set; }
         public void SetClientId(string clientid) {
             ClientId = clientid;
@@ -34,6 +35,9 @@ namespace Nestpay {
         }
         public void SetPassword(string password) {
             Password = password;
+        }
+        public void SetStoreKey(string storekey) {
+            StoreKey = storekey;
         }
         public Nestpay(MODE mode, BANK bank) {
             Mode = mode switch {
