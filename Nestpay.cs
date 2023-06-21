@@ -26,13 +26,6 @@ namespace Nestpay {
         public string Username { set; get; }
         public string Password { set; get; }
         public string Endpoint { get; set; }
-        public void SetMode(MODE mode) {
-            Mode = mode switch {
-                MODE.Test => "T",
-                MODE.Prod => "P",
-                _ => null
-            };
-        }
         public void SetClientId(string clientid) {
             ClientId = clientid;
         }
@@ -42,7 +35,12 @@ namespace Nestpay {
         public void SetPassword(string password) {
             Password = password;
         }
-        public Nestpay(BANK bank) {
+        public Nestpay(BANK bank, MODE mode) {
+            Mode = mode switch {
+                MODE.Test => "T",
+                MODE.Prod => "P",
+                _ => null
+            };
             Endpoint = bank switch {
                 BANK.Asseco => "https://entegrasyon.asseco-see.com.tr",
                 BANK.Akbank => "https://www.sanalakpos.com",
@@ -217,7 +215,7 @@ namespace Nestpay {
             data.Username = Username;
             data.Password = Password;
             data.Type = "PreAuth";
-            return Transaction(data);
+            return _Transaction(data);
         }
         public CC5Response PostAuth(CC5Request data) {
             data.Mode = Mode;
@@ -225,7 +223,7 @@ namespace Nestpay {
             data.Username = Username;
             data.Password = Password;
             data.Type = "PostAuth";
-            return Transaction(data);
+            return _Transaction(data);
         }
         public CC5Response Auth(CC5Request data) {
             data.Mode = Mode;
@@ -233,7 +231,7 @@ namespace Nestpay {
             data.Username = Username;
             data.Password = Password;
             data.Type = "Auth";
-            return Transaction(data);
+            return _Transaction(data);
         }
         public CC5Response Refund(CC5Request data) {
             data.Mode = Mode;
@@ -241,7 +239,7 @@ namespace Nestpay {
             data.Username = Username;
             data.Password = Password;
             data.Type = "Credit";
-            return Transaction(data);
+            return _Transaction(data);
         }
         public CC5Response Cancel(CC5Request data) {
             data.Mode = Mode;
@@ -249,7 +247,7 @@ namespace Nestpay {
             data.Username = Username;
             data.Password = Password;
             data.Type = "Void";
-            return Transaction(data);
+            return _Transaction(data);
         }
         private Dictionary<string, string> FormData(CC5Request data) {
             var form = new Dictionary<string, string>();
@@ -263,7 +261,7 @@ namespace Nestpay {
             }
             return form;
         }
-        private CC5Response Transaction(CC5Request data) {
+        private CC5Response _Transaction(CC5Request data) {
             var cc5request = new XmlSerializer(typeof(CC5Request));
             var cc5response = new XmlSerializer(typeof(CC5Response));
             using var writer = new Writer();
