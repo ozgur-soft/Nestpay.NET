@@ -24,7 +24,7 @@ namespace Nestpay {
             request.SetIPv4("1.2.3.4"); // Müşteri IP adresi
             var response = nestpay.Auth(request);
             if (response != null) {
-                Console.WriteLine(Nestpay.JsonString<Nestpay.CC5Response>(response));
+                Console.WriteLine(Nestpay.Json<Nestpay.CC5Response>(response));
             }
         }
     }
@@ -45,7 +45,7 @@ namespace Nestpay {
             request.SetOrderId("ORDER-"); // Sipariş numarası
             var response = nestpay.Refund(request);
             if (response != null) {
-                Console.WriteLine(Nestpay.JsonString<Nestpay.CC5Response>(response));
+                Console.WriteLine(Nestpay.Json<Nestpay.CC5Response>(response));
             }
         }
     }
@@ -65,7 +65,7 @@ namespace Nestpay {
             request.SetOrderId("ORDER-"); // Sipariş numarası
             var response = nestpay.Cancel(request);
             if (response != null) {
-                Console.WriteLine(Nestpay.JsonString<Nestpay.CC5Response>(response));
+                Console.WriteLine(Nestpay.Json<Nestpay.CC5Response>(response));
             }
         }
     }
