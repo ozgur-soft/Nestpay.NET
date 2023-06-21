@@ -282,20 +282,24 @@ namespace Nestpay {
             data.TransactionType = "Auth";
             data.Hash = Hash(data.ClientId + data.OrderId + data.Amount + data.OkUrl + data.FailUrl + data.TransactionType + data.Installment + data.Random + StoreKey);
             var form = new Dictionary<string, string>();
-            var root_elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-            foreach (var element in root_elements) {
-                var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                var value = element.GetValue(data)?.ToString();
-                if (!string.IsNullOrEmpty(value)) {
-                    form.Add(key, value);
+            if (data != null) {
+                var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in elements) {
+                    var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                    var value = element.GetValue(data)?.ToString();
+                    if (!string.IsNullOrEmpty(value)) {
+                        form.Add(key, value);
+                    }
                 }
-            }
-            var billto_elements = data.BillTo.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-            foreach (var element in billto_elements) {
-                var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                var value = element.GetValue(data.BillTo)?.ToString();
-                if (!string.IsNullOrEmpty(value)) {
-                    form.Add(key, value);
+                if (data.BillTo != null) {
+                    var billto_elements = data.BillTo.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                    foreach (var element in billto_elements) {
+                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                        var value = element.GetValue(data.BillTo)?.ToString();
+                        if (!string.IsNullOrEmpty(value)) {
+                            form.Add(key, value);
+                        }
+                    }
                 }
             }
             return form;
