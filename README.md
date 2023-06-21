@@ -11,8 +11,7 @@ dotnet add package Nestpay --version 1.3.3
 namespace Nestpay {
     internal class Program {
         static void Main(string[] args) {
-            var nestpay = new Nestpay(BANK.Asseco); // Banka adı
-            nestpay.SetMode(MODE.Test); // Çalışma ortamı
+            var nestpay = new Nestpay(MODE.Test, BANK.Asseco); // Çalışma ortamı ve Banka adı
             nestpay.SetClientId("100100000"); // İşyeri numarası
             nestpay.SetUsername("AKTESTAPI"); // Kullanıcı adı
             nestpay.SetPassword("AKBANK01"); // Kullanıcı şifresi
@@ -37,8 +36,7 @@ namespace Nestpay {
 namespace Nestpay {
     internal class Program {
         static void Main(string[] args) {
-            var nestpay = new Nestpay(BANK.Asseco); // Banka adı
-            nestpay.SetMode(MODE.Test); // Çalışma ortamı
+            var nestpay = new Nestpay(MODE.Test, BANK.Asseco); // Çalışma ortamı ve Banka adı
             nestpay.SetClientId("100100000"); // İşyeri numarası
             nestpay.SetUsername("AKTESTAPI"); // Kullanıcı adı
             nestpay.SetPassword("AKBANK01"); // Kullanıcı şifresi
@@ -59,8 +57,7 @@ namespace Nestpay {
 namespace Nestpay {
     internal class Program {
         static void Main(string[] args) {
-            var nestpay = new Nestpay(BANK.Asseco); // Banka adı
-            nestpay.SetMode(MODE.Test); // Çalışma ortamı
+            var nestpay = new Nestpay(MODE.Test, BANK.Asseco); // Çalışma ortamı ve Banka adı
             nestpay.SetClientId("100100000"); // İşyeri numarası
             nestpay.SetUsername("AKTESTAPI"); // Kullanıcı adı
             nestpay.SetPassword("AKBANK01"); // Kullanıcı şifresi
