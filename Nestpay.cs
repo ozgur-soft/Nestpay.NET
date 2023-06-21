@@ -22,12 +22,12 @@ namespace Nestpay {
         Teb
     }
     public class Nestpay {
-        public string Mode { set; get; }
-        public string ClientId { set; get; }
-        public string Username { set; get; }
-        public string Password { set; get; }
+        private string Mode { set; get; }
+        private string Endpoint { get; set; }
+        private string ClientId { set; get; }
+        private string Username { set; get; }
+        private string Password { set; get; }
         private string StoreKey { get; set; }
-        public string Endpoint { get; set; }
         public void SetClientId(string clientid) {
             ClientId = clientid;
         }
@@ -228,9 +228,6 @@ namespace Nestpay {
         }
         public static byte[] Byte(string data) {
             return Encoding.ASCII.GetBytes(data);
-        }
-        public static string Hex(byte[] data) {
-            return BitConverter.ToString(data).Replace("-", "").ToUpperInvariant();
         }
         public static string Hash(string data) {
             return Convert.ToBase64String(SHA1.Create().ComputeHash(Byte(data)));
