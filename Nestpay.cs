@@ -22,10 +22,17 @@ namespace Nestpay {
     }
     public class Nestpay {
         public string Mode { set; get; }
-        public string Endpoint { get; set; }
         public string ClientId { set; get; }
         public string Username { set; get; }
         public string Password { set; get; }
+        public string Endpoint { get; set; }
+        public void SetMode(MODE mode) {
+            Mode = mode switch {
+                MODE.Test => "T",
+                MODE.Prod => "P",
+                _ => null
+            };
+        }
         public void SetClientId(string clientid) {
             ClientId = clientid;
         }
@@ -35,12 +42,7 @@ namespace Nestpay {
         public void SetPassword(string password) {
             Password = password;
         }
-        public Nestpay(MODE mode, BANK bank) {
-            Mode = mode switch {
-                MODE.Test => "T",
-                MODE.Prod => "P",
-                _ => null
-            };
+        public Nestpay(BANK bank) {
             Endpoint = bank switch {
                 BANK.Asseco => "https://entegrasyon.asseco-see.com.tr",
                 BANK.Akbank => "https://www.sanalakpos.com",
