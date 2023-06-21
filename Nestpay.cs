@@ -56,14 +56,19 @@ namespace Nestpay {
         public class CC5Request {
             [XmlElement("Mode", IsNullable = false)]
             public string Mode { set; get; }
+            [FormElement("islemtipi")]
             [XmlElement("Type", IsNullable = false)]
             public string Type { set; get; }
+            [FormElement("storetype")]
+            public string StoreType { set; get; }
             [XmlElement("Name", IsNullable = false)]
             public string Username { set; get; }
             [XmlElement("Password", IsNullable = false)]
             public string Password { set; get; }
+            [FormElement("clientid")]
             [XmlElement("ClientId", IsNullable = false)]
             public string ClientId { set; get; }
+            [FormElement("oid")]
             [XmlElement("OrderId", IsNullable = false)]
             public string OrderId { set; get; }
             [XmlElement("GroupId", IsNullable = false)]
@@ -76,16 +81,25 @@ namespace Nestpay {
             public string IPAddress { set; get; }
             [XmlElement("Email", IsNullable = false)]
             public string Email { set; get; }
+            [FormElement("pan")]
             [XmlElement("Number", IsNullable = false)]
             public string CardNumber { set; get; }
             [XmlElement("Expires", IsNullable = false)]
             public string CardExpiry { set; get; }
+            [FormElement("Ecom_Payment_Card_ExpDate_Month")]
+            public string CardMonth { set; get; }
+            [FormElement("Ecom_Payment_Card_ExpDate_Year")]
+            public string CardYear { set; get; }
+            [FormElement("cv2")]
             [XmlElement("Cvv2Val", IsNullable = false)]
             public string CardCode { set; get; }
+            [FormElement("amount")]
             [XmlElement("Total", IsNullable = false)]
             public string Amount { set; get; }
+            [FormElement("currency")]
             [XmlElement("Currency", IsNullable = false)]
             public string Currency { set; get; }
+            [FormElement("taksit")]
             [XmlElement("Instalment", IsNullable = false)]
             public string Installment { set; get; }
             [XmlElement("PayerTxnId", IsNullable = false)]
@@ -96,6 +110,14 @@ namespace Nestpay {
             public string PayerAuthenticationCode { set; get; }
             [XmlElement("CardholderPresentCode", IsNullable = false)]
             public string CardholderPresentCode { set; get; }
+            [FormElement("rnd")]
+            public string Rnd { set; get; }
+            [FormElement("hash")]
+            public string Hash { set; get; }
+            [FormElement("okUrl")]
+            public string OkUrl { set; get; }
+            [FormElement("failUrl")]
+            public string FailUrl { set; get; }
             [XmlElement("BillTo", IsNullable = false)]
             public To BillTo { set; get; }
             [XmlElement("ShipTo", IsNullable = false)]
@@ -134,6 +156,7 @@ namespace Nestpay {
             }
         }
         public class To {
+            [FormElement("cardholder")]
             [XmlElement("Name", IsNullable = false)]
             public string Name { set; get; }
             [XmlElement("Company", IsNullable = false)]
@@ -152,6 +175,7 @@ namespace Nestpay {
             public string PostalCode { set; get; }
             [XmlElement("Country", IsNullable = false)]
             public string Country { set; get; }
+            [FormElement("phone")]
             [XmlElement("TelVoice", IsNullable = false)]
             public string TelVoice { set; get; }
         }
@@ -173,6 +197,13 @@ namespace Nestpay {
             public string ProcReturnCode { init; get; }
             [XmlElement("ErrMsg")]
             public string ErrMsg { init; get; }
+        }
+        [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.ReturnValue, AllowMultiple = true)]
+        public class FormElementAttribute : Attribute {
+            public string V { get; }
+            public FormElementAttribute(string v) {
+                V = v;
+            }
         }
         public class Writer : StringWriter {
             public override Encoding Encoding => Encoding.UTF8;
