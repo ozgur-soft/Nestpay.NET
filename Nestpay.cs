@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Xml;
@@ -247,6 +248,18 @@ namespace Nestpay {
             data.Password = Password;
             data.Type = "Void";
             return Transaction(data);
+        }
+        private Dictionary<string, string> FormData(CC5Request data) {
+            var form = new Dictionary<string, string>();
+            var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+            foreach (var element in elements) {
+                var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                var value = element.GetValue(data)?.ToString();
+                if (!string.IsNullOrEmpty(value)) {
+                    form.Add(key, value);
+                }
+            }
+            return form;
         }
         private CC5Response Transaction(CC5Request data) {
             var cc5request = new XmlSerializer(typeof(CC5Request));
