@@ -200,9 +200,9 @@ namespace Nestpay {
         }
         [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.ReturnValue, AllowMultiple = true)]
         public class FormElementAttribute : Attribute {
-            public string V { get; }
-            public FormElementAttribute(string v) {
-                V = v;
+            public string Key { get; }
+            public FormElementAttribute(string key) {
+                Key = key;
             }
         }
         public class Writer : StringWriter {
