@@ -223,8 +223,15 @@ namespace Nestpay {
         public class Writer : StringWriter {
             public override Encoding Encoding => Encoding.UTF8;
         }
+        public static string Json<T>(T data) where T : class {
+            return JsonSerializer.Serialize(data, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, WriteIndented = true });
+        }
+        public static string Hex(byte[] data) {
+            var hex = BitConverter.ToString(data).Replace("-", "").ToUpperInvariant();
+            return hex;
+        }
         public static string Hash(string data) {
-            var hash = BitConverter.ToString(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(data))).Replace("-", "").ToUpperInvariant();
+            var hash = Hex(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(data)));
             return hash;
         }
         public CC5Response PreAuth(CC5Request data) {
@@ -314,9 +321,6 @@ namespace Nestpay {
                 }
             }
             return null;
-        }
-        public static string JsonString<T>(T data) where T : class {
-            return JsonSerializer.Serialize(data, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, WriteIndented = true });
         }
     }
 }
