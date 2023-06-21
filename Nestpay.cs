@@ -224,8 +224,8 @@ namespace Nestpay {
             public override Encoding Encoding => Encoding.UTF8;
         }
         public static string Hash(string data) {
-            var sha1 = BitConverter.ToString(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(data))).Replace("-", "").ToLowerInvariant();
-            return sha1;
+            var hash = BitConverter.ToString(SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(data))).Replace("-", "").ToUpperInvariant();
+            return hash;
         }
         public CC5Response PreAuth(CC5Request data) {
             data.Mode = Mode;
@@ -273,7 +273,7 @@ namespace Nestpay {
             data.Username = Username;
             data.Password = Password;
             data.TransactionType = "Auth";
-            data.Hash = Hash(data.ClientId + data.OrderId + data.Amount + data.OkUrl + data.FailUrl + data.TransactionType + data.Installment + data.Random + StoreKey).ToUpperInvariant();
+            data.Hash = Hash(data.ClientId + data.OrderId + data.Amount + data.OkUrl + data.FailUrl + data.TransactionType + data.Installment + data.Random + StoreKey);
             var form = new Dictionary<string, string>();
             var root_elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
             foreach (var element in root_elements) {
