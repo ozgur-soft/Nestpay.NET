@@ -233,7 +233,7 @@ namespace Nestpay {
             return BitConverter.ToString(data).Replace("-", "").ToUpperInvariant();
         }
         public static string Hash(string data) {
-            return Convert.ToBase64String(Byte(Hex(SHA1.Create().ComputeHash(Byte(data)))));
+            return Convert.ToBase64String(SHA1.Create().ComputeHash(Byte(data)));
         }
         public CC5Response PreAuth(CC5Request data) {
             data.Mode = Mode;
@@ -281,6 +281,8 @@ namespace Nestpay {
             data.Username = Username;
             data.Password = Password;
             data.TransactionType = "Auth";
+            data.StoreType = "3d";
+            data.Random = new Random().Next(100000, 999999).ToString();
             data.Hash = Hash(data.ClientId + data.OrderId + data.Amount + data.OkUrl + data.FailUrl + data.TransactionType + data.Installment + data.Random + StoreKey);
             var form = new Dictionary<string, string>();
             if (data != null) {
