@@ -158,6 +158,8 @@ namespace Nestpay {
             }
             public void SetCardExpiry(string cardmonth, string cardyear) {
                 CardExpiry = cardmonth + "/" + cardyear;
+                CardMonth = cardmonth;
+                CardYear = cardyear;
             }
             public void SetCardCode(string cardcode) {
                 CardCode = cardcode;
