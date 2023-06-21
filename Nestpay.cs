@@ -249,7 +249,7 @@ namespace Nestpay {
             data.Type = "Void";
             return _Transaction(data);
         }
-        private Dictionary<string, string> FormData(CC5Request data) {
+        public Dictionary<string, string> FormData(CC5Request data) {
             var form = new Dictionary<string, string>();
             var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
             foreach (var element in elements) {
