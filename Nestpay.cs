@@ -58,7 +58,7 @@ namespace Nestpay {
                 _ => null
             };
         }
-        [Serializable, XmlRoot("CC5Request")]
+        [XmlRoot("CC5Request")]
         public class CC5Request {
             [XmlElement("Mode", IsNullable = false)]
             public string Mode { set; get; }
@@ -194,7 +194,7 @@ namespace Nestpay {
             [XmlElement("TelVoice", IsNullable = false)]
             public string TelVoice { set; get; }
         }
-        [Serializable, XmlRoot("CC5Response")]
+        [XmlRoot("CC5Response")]
         public class CC5Response {
             [XmlElement("OrderId")]
             public string OrderId { init; get; }
@@ -213,7 +213,6 @@ namespace Nestpay {
             [XmlElement("ErrMsg")]
             public string ErrMsg { init; get; }
         }
-        [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Parameter | AttributeTargets.ReturnValue, AllowMultiple = true)]
         public class FormElementAttribute : Attribute {
             public string Key { get; }
             public FormElementAttribute(string key) {
