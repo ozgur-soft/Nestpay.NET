@@ -288,10 +288,7 @@ namespace Nestpay {
             return _Transaction(data);
         }
         public Dictionary<string, string> PreAuth3dForm(CC5Request data) {
-            data.Mode = Mode;
             data.ClientId = ClientId;
-            data.Username = Username;
-            data.Password = Password;
             data.TransactionType = "PreAuth";
             data.StoreType = "3d";
             data.Random = new Random().Next(100000, 999999).ToString();
@@ -320,10 +317,7 @@ namespace Nestpay {
             return form;
         }
         public Dictionary<string, string> Auth3dForm(CC5Request data) {
-            data.Mode = Mode;
             data.ClientId = ClientId;
-            data.Username = Username;
-            data.Password = Password;
             data.TransactionType = "Auth";
             data.StoreType = "3d";
             data.Random = new Random().Next(100000, 999999).ToString();
