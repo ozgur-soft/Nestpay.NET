@@ -271,6 +271,22 @@ namespace Nestpay {
             data.TransactionType = "Void";
             return _Transaction(data);
         }
+        public CC5Response PreAuth3d(CC5Request data) {
+            data.Mode = Mode;
+            data.ClientId = ClientId;
+            data.Username = Username;
+            data.Password = Password;
+            data.TransactionType = "PreAuth";
+            return _Transaction(data);
+        }
+        public CC5Response Auth3d(CC5Request data) {
+            data.Mode = Mode;
+            data.ClientId = ClientId;
+            data.Username = Username;
+            data.Password = Password;
+            data.TransactionType = "Auth";
+            return _Transaction(data);
+        }
         public Dictionary<string, string> PreAuth3dForm(CC5Request data) {
             data.Mode = Mode;
             data.ClientId = ClientId;
