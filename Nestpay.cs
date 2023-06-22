@@ -271,7 +271,7 @@ namespace Nestpay {
             data.TransactionType = "Void";
             return _Transaction(data);
         }
-        public Dictionary<string, string> Auth3d(CC5Request data) {
+        public Dictionary<string, string> Auth3dForm(CC5Request data) {
             data.Mode = Mode;
             data.ClientId = ClientId;
             data.Username = Username;
