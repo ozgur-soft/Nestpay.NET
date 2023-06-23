@@ -22,11 +22,11 @@ namespace Nestpay {
         Teb
     }
     public class Nestpay {
-        private string Mode { set; get; }
-        private string Endpoint { get; set; }
-        private string ClientId { set; get; }
-        private string Username { set; get; }
-        private string Password { set; get; }
+        public string Mode { get; set; }
+        public string Endpoint { get; set; }
+        private string ClientId { get; set; }
+        private string Username { get; set; }
+        private string Password { get; set; }
         private string StoreKey { get; set; }
         public void SetClientId(string clientid) {
             ClientId = clientid;
@@ -61,80 +61,80 @@ namespace Nestpay {
         [XmlRoot("CC5Request")]
         public class CC5Request {
             [XmlElement("Mode", IsNullable = false)]
-            public string Mode { set; get; }
+            public string Mode { get; set; }
             [FormElement("islemtipi")]
             [XmlElement("Type", IsNullable = false)]
-            public string TransactionType { set; get; }
+            public string TransactionType { get; set; }
             [FormElement("storetype")]
             [XmlIgnore]
-            public string StoreType { set; get; }
+            public string StoreType { get; set; }
             [XmlElement("Name", IsNullable = false)]
-            public string Username { set; get; }
+            public string Username { get; set; }
             [XmlElement("Password", IsNullable = false)]
-            public string Password { set; get; }
+            public string Password { get; set; }
             [FormElement("clientid")]
             [XmlElement("ClientId", IsNullable = false)]
-            public string ClientId { set; get; }
+            public string ClientId { get; set; }
             [FormElement("oid")]
             [XmlElement("OrderId", IsNullable = false)]
-            public string OrderId { set; get; }
+            public string OrderId { get; set; }
             [XmlElement("GroupId", IsNullable = false)]
-            public string GroupId { set; get; }
+            public string GroupId { get; set; }
             [XmlElement("TransId", IsNullable = false)]
-            public string TransId { set; get; }
+            public string TransId { get; set; }
             [XmlElement("UserId", IsNullable = false)]
-            public string UserId { set; get; }
+            public string UserId { get; set; }
             [XmlElement("IPAddress", IsNullable = false)]
-            public string IPAddress { set; get; }
+            public string IPAddress { get; set; }
             [XmlElement("Email", IsNullable = false)]
-            public string Email { set; get; }
+            public string Email { get; set; }
             [FormElement("pan")]
             [XmlElement("Number", IsNullable = false)]
-            public string CardNumber { set; get; }
+            public string CardNumber { get; set; }
             [XmlElement("Expires", IsNullable = false)]
-            public string CardExpiry { set; get; }
+            public string CardExpiry { get; set; }
             [FormElement("Ecom_Payment_Card_ExpDate_Month")]
             [XmlIgnore]
-            public string CardMonth { set; get; }
+            public string CardMonth { get; set; }
             [FormElement("Ecom_Payment_Card_ExpDate_Year")]
             [XmlIgnore]
-            public string CardYear { set; get; }
+            public string CardYear { get; set; }
             [FormElement("cv2")]
             [XmlElement("Cvv2Val", IsNullable = false)]
-            public string CardCode { set; get; }
+            public string CardCode { get; set; }
             [FormElement("amount")]
             [XmlElement("Total", IsNullable = false)]
-            public string Amount { set; get; }
+            public string Amount { get; set; }
             [FormElement("currency")]
             [XmlElement("Currency", IsNullable = false)]
-            public string Currency { set; get; }
+            public string Currency { get; set; }
             [FormElement("taksit")]
             [XmlElement("Instalment", IsNullable = false)]
-            public string Installment { set; get; }
+            public string Installment { get; set; }
             [XmlElement("PayerTxnId", IsNullable = false)]
-            public string PayerTxnId { set; get; }
+            public string PayerTxnId { get; set; }
             [XmlElement("PayerSecurityLevel", IsNullable = false)]
-            public string PayerSecurityLevel { set; get; }
+            public string PayerSecurityLevel { get; set; }
             [XmlElement("PayerAuthenticationCode", IsNullable = false)]
-            public string PayerAuthenticationCode { set; get; }
+            public string PayerAuthenticationCode { get; set; }
             [XmlElement("CardholderPresentCode", IsNullable = false)]
-            public string CardholderPresentCode { set; get; }
+            public string CardholderPresentCode { get; set; }
             [FormElement("rnd")]
             [XmlIgnore]
-            public string Random { set; get; }
+            public string Random { get; set; }
             [FormElement("hash")]
             [XmlIgnore]
-            public string Hash { set; get; }
+            public string Hash { get; set; }
             [FormElement("okUrl")]
             [XmlIgnore]
-            public string OkUrl { set; get; }
+            public string OkUrl { get; set; }
             [FormElement("failUrl")]
             [XmlIgnore]
-            public string FailUrl { set; get; }
+            public string FailUrl { get; set; }
             [XmlElement("BillTo", IsNullable = false)]
-            public To BillTo { set; get; }
+            public To BillTo { get; set; }
             [XmlElement("ShipTo", IsNullable = false)]
-            public To ShipTo { set; get; }
+            public To ShipTo { get; set; }
             public void SetIPv4(string ipv4) {
                 IPAddress = ipv4;
             }
@@ -173,26 +173,26 @@ namespace Nestpay {
         public class To {
             [FormElement("cardholder")]
             [XmlElement("Name", IsNullable = false)]
-            public string Name { set; get; }
+            public string Name { get; set; }
             [XmlElement("Company", IsNullable = false)]
-            public string Company { set; get; }
+            public string Company { get; set; }
             [XmlElement("Street1", IsNullable = false)]
-            public string Street1 { set; get; }
+            public string Street1 { get; set; }
             [XmlElement("Street2", IsNullable = false)]
-            public string Street2 { set; get; }
+            public string Street2 { get; set; }
             [XmlElement("Street3", IsNullable = false)]
-            public string Street3 { set; get; }
+            public string Street3 { get; set; }
             [XmlElement("City", IsNullable = false)]
-            public string City { set; get; }
+            public string City { get; set; }
             [XmlElement("StateProv", IsNullable = false)]
-            public string StateProv { set; get; }
+            public string StateProv { get; set; }
             [XmlElement("PostalCode", IsNullable = false)]
-            public string PostalCode { set; get; }
+            public string PostalCode { get; set; }
             [XmlElement("Country", IsNullable = false)]
-            public string Country { set; get; }
+            public string Country { get; set; }
             [FormElement("phone")]
             [XmlElement("TelVoice", IsNullable = false)]
-            public string TelVoice { set; get; }
+            public string TelVoice { get; set; }
         }
         [XmlRoot("CC5Response")]
         public class CC5Response {
