@@ -111,6 +111,10 @@ namespace Nestpay {
             [FormElement("taksit")]
             [XmlElement("Instalment", IsNullable = false)]
             public string Installment { get; set; }
+            [XmlElement("BillTo", IsNullable = false)]
+            public To BillTo { get; set; }
+            [XmlElement("ShipTo", IsNullable = false)]
+            public To ShipTo { get; set; }
             [XmlElement("PayerTxnId", IsNullable = false)]
             public string PayerTxnId { get; set; }
             [XmlElement("PayerSecurityLevel", IsNullable = false)]
@@ -131,10 +135,9 @@ namespace Nestpay {
             [FormElement("failUrl")]
             [XmlIgnore]
             public string FailUrl { get; set; }
-            [XmlElement("BillTo", IsNullable = false)]
-            public To BillTo { get; set; }
-            [XmlElement("ShipTo", IsNullable = false)]
-            public To ShipTo { get; set; }
+            [FormElement("lang")]
+            [XmlIgnore]
+            public string Lang { get; set; }
             public void SetIPv4(string ipv4) {
                 IPAddress = ipv4;
             }
