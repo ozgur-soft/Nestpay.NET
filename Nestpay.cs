@@ -300,20 +300,19 @@ namespace Nestpay {
             data.TransactionType = "Auth";
             return _Transaction(data);
         }
-        public Dictionary<string, string> PreAuth3dForm(CC5Request data) {
+        public Dictionary<string, string> PreAuth3dForm(CC5Request data, Dictionary<string, string> form) {
             data.ClientId = ClientId;
             data.TransactionType = "PreAuth";
             data.HashAlgorithm = "ver3";
             data.StoreType = "3d";
             data.Random = new Random().Next(100000, 999999).ToString();
-            var form = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             if (data != null) {
                 var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
                 foreach (var element in elements) {
                     var key = element.GetCustomAttribute<FormElementAttribute>().Key;
                     var value = element.GetValue(data)?.ToString();
                     if (!string.IsNullOrEmpty(value)) {
-                        form.Add(key, value);
+                        form.TryAdd(key, value);
                     }
                 }
                 if (data.BillTo != null) {
@@ -322,7 +321,7 @@ namespace Nestpay {
                         var key = element.GetCustomAttribute<FormElementAttribute>().Key;
                         var value = element.GetValue(data.BillTo)?.ToString();
                         if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
+                            form.TryAdd(key, value);
                         }
                     }
                 }
@@ -333,20 +332,19 @@ namespace Nestpay {
             }
             return form.OrderBy(x => x.Key == "hash").ThenBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
         }
-        public Dictionary<string, string> Auth3dForm(CC5Request data) {
+        public Dictionary<string, string> Auth3dForm(CC5Request data, Dictionary<string, string> form) {
             data.ClientId = ClientId;
             data.TransactionType = "Auth";
             data.HashAlgorithm = "ver3";
             data.StoreType = "3d";
             data.Random = new Random().Next(100000, 999999).ToString();
-            var form = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             if (data != null) {
                 var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
                 foreach (var element in elements) {
                     var key = element.GetCustomAttribute<FormElementAttribute>().Key;
                     var value = element.GetValue(data)?.ToString();
                     if (!string.IsNullOrEmpty(value)) {
-                        form.Add(key, value);
+                        form.TryAdd(key, value);
                     }
                 }
                 if (data.BillTo != null) {
@@ -355,7 +353,7 @@ namespace Nestpay {
                         var key = element.GetCustomAttribute<FormElementAttribute>().Key;
                         var value = element.GetValue(data.BillTo)?.ToString();
                         if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
+                            form.TryAdd(key, value);
                         }
                     }
                 }
