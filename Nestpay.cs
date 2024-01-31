@@ -126,9 +126,6 @@ namespace Nestpay {
             [FormElement("rnd")]
             [XmlIgnore]
             public string Random { get; set; }
-            [FormElement("hash")]
-            [XmlIgnore]
-            public string Hash { get; set; }
             [FormElement("hashAlgorithm")]
             [XmlIgnore]
             public string HashAlgorithm { get; set; }
@@ -300,19 +297,20 @@ namespace Nestpay {
             data.TransactionType = "Auth";
             return _Transaction(data);
         }
-        public Dictionary<string, string> PreAuth3dForm(CC5Request data, Dictionary<string, string> form) {
+        public Dictionary<string, string> PreAuth3dForm(CC5Request data) {
             data.ClientId = ClientId;
             data.TransactionType = "PreAuth";
             data.HashAlgorithm = "ver3";
             data.StoreType = "3d";
             data.Random = new Random().Next(100000, 999999).ToString();
+            var form = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             if (data != null) {
                 var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
                 foreach (var element in elements) {
                     var key = element.GetCustomAttribute<FormElementAttribute>().Key;
                     var value = element.GetValue(data)?.ToString();
                     if (!string.IsNullOrEmpty(value)) {
-                        form.TryAdd(key, value);
+                        form.Add(key, value);
                     }
                 }
                 if (data.BillTo != null) {
@@ -321,30 +319,38 @@ namespace Nestpay {
                         var key = element.GetCustomAttribute<FormElementAttribute>().Key;
                         var value = element.GetValue(data.BillTo)?.ToString();
                         if (!string.IsNullOrEmpty(value)) {
-                            form.TryAdd(key, value);
+                            form.Add(key, value);
                         }
                     }
                 }
-                data.Hash = Hash(form, StoreKey);
-                if (data.Hash != null) {
-                    form.Add("hash", data.Hash);
+                if (data.ShipTo != null) {
+                    var shipto_elements = data.ShipTo.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                    foreach (var element in shipto_elements) {
+                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                        var value = element.GetValue(data.ShipTo)?.ToString();
+                        if (!string.IsNullOrEmpty(value)) {
+                            form.Add(key, value);
+                        }
+                    }
                 }
             }
+            form.Add("hash", Hash(form, StoreKey));
             return form.OrderBy(x => x.Key == "hash").ThenBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
         }
-        public Dictionary<string, string> Auth3dForm(CC5Request data, Dictionary<string, string> form) {
+        public Dictionary<string, string> Auth3dForm(CC5Request data) {
             data.ClientId = ClientId;
             data.TransactionType = "Auth";
             data.HashAlgorithm = "ver3";
             data.StoreType = "3d";
             data.Random = new Random().Next(100000, 999999).ToString();
+            var form = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             if (data != null) {
                 var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
                 foreach (var element in elements) {
                     var key = element.GetCustomAttribute<FormElementAttribute>().Key;
                     var value = element.GetValue(data)?.ToString();
                     if (!string.IsNullOrEmpty(value)) {
-                        form.TryAdd(key, value);
+                        form.Add(key, value);
                     }
                 }
                 if (data.BillTo != null) {
@@ -353,15 +359,22 @@ namespace Nestpay {
                         var key = element.GetCustomAttribute<FormElementAttribute>().Key;
                         var value = element.GetValue(data.BillTo)?.ToString();
                         if (!string.IsNullOrEmpty(value)) {
-                            form.TryAdd(key, value);
+                            form.Add(key, value);
                         }
                     }
                 }
-                data.Hash = Hash(form, StoreKey);
-                if (data.Hash != null) {
-                    form.Add("hash", data.Hash);
+                if (data.ShipTo != null) {
+                    var shipto_elements = data.ShipTo.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                    foreach (var element in shipto_elements) {
+                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                        var value = element.GetValue(data.ShipTo)?.ToString();
+                        if (!string.IsNullOrEmpty(value)) {
+                            form.Add(key, value);
+                        }
+                    }
                 }
             }
+            form.Add("hash", Hash(form, StoreKey));
             return form.OrderBy(x => x.Key == "hash").ThenBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
         }
         private CC5Response _Transaction(CC5Request data) {
