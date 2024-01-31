@@ -331,7 +331,7 @@ namespace Nestpay {
                     form.Add("hash", data.Hash);
                 }
             }
-            return form.OrderBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
+            return form.OrderBy(x => x.Key == "hash").ThenBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
         }
         public Dictionary<string, string> Auth3dForm(CC5Request data) {
             data.ClientId = ClientId;
@@ -364,7 +364,7 @@ namespace Nestpay {
                     form.Add("hash", data.Hash);
                 }
             }
-            return form.OrderBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
+            return form.OrderBy(x => x.Key == "hash").ThenBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
         }
         private CC5Response _Transaction(CC5Request data) {
             var cc5request = new XmlSerializer(typeof(CC5Request));
