@@ -327,6 +327,9 @@ namespace Nestpay {
                     }
                 }
                 data.Hash = Hash(form, StoreKey);
+                if (data.Hash != null) {
+                    form.Add("hash", data.Hash);
+                }
             }
             return form.OrderBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
         }
@@ -357,6 +360,9 @@ namespace Nestpay {
                     }
                 }
                 data.Hash = Hash(form, StoreKey);
+                if (data.Hash != null) {
+                    form.Add("hash", data.Hash);
+                }
             }
             return form.OrderBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
         }
