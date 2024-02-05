@@ -304,38 +304,36 @@ namespace Nestpay {
             data.StoreType = "3d";
             data.Random = new Random().Next(100000, 999999).ToString();
             var form = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
-            if (data != null) {
-                var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                foreach (var element in elements) {
+            var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+            foreach (var element in elements) {
+                var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                var value = element.GetValue(data)?.ToString();
+                if (!string.IsNullOrEmpty(value)) {
+                    form.Add(key, value);
+                }
+            }
+            if (data.BillTo != null) {
+                var billto_elements = data.BillTo.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in billto_elements) {
                     var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                    var value = element.GetValue(data)?.ToString();
+                    var value = element.GetValue(data.BillTo)?.ToString();
                     if (!string.IsNullOrEmpty(value)) {
                         form.Add(key, value);
                     }
                 }
-                if (data.BillTo != null) {
-                    var billto_elements = data.BillTo.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in billto_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.BillTo)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
-                    }
-                }
-                if (data.ShipTo != null) {
-                    var shipto_elements = data.ShipTo.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in shipto_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.ShipTo)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
+            }
+            if (data.ShipTo != null) {
+                var shipto_elements = data.ShipTo.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in shipto_elements) {
+                    var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                    var value = element.GetValue(data.ShipTo)?.ToString();
+                    if (!string.IsNullOrEmpty(value)) {
+                        form.Add(key, value);
                     }
                 }
             }
             form.Add("hash", Hash(form, StoreKey));
-            return form.OrderBy(x => x.Key == "hash").ThenBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
+            return form.OrderBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
         }
         public Dictionary<string, string> Auth3dForm(CC5Request data) {
             data.ClientId = ClientId;
@@ -344,38 +342,36 @@ namespace Nestpay {
             data.StoreType = "3d";
             data.Random = new Random().Next(100000, 999999).ToString();
             var form = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
-            if (data != null) {
-                var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                foreach (var element in elements) {
+            var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+            foreach (var element in elements) {
+                var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                var value = element.GetValue(data)?.ToString();
+                if (!string.IsNullOrEmpty(value)) {
+                    form.Add(key, value);
+                }
+            }
+            if (data.BillTo != null) {
+                var billto_elements = data.BillTo.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in billto_elements) {
                     var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                    var value = element.GetValue(data)?.ToString();
+                    var value = element.GetValue(data.BillTo)?.ToString();
                     if (!string.IsNullOrEmpty(value)) {
                         form.Add(key, value);
                     }
                 }
-                if (data.BillTo != null) {
-                    var billto_elements = data.BillTo.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in billto_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.BillTo)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
-                    }
-                }
-                if (data.ShipTo != null) {
-                    var shipto_elements = data.ShipTo.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
-                    foreach (var element in shipto_elements) {
-                        var key = element.GetCustomAttribute<FormElementAttribute>().Key;
-                        var value = element.GetValue(data.ShipTo)?.ToString();
-                        if (!string.IsNullOrEmpty(value)) {
-                            form.Add(key, value);
-                        }
+            }
+            if (data.ShipTo != null) {
+                var shipto_elements = data.ShipTo.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
+                foreach (var element in shipto_elements) {
+                    var key = element.GetCustomAttribute<FormElementAttribute>().Key;
+                    var value = element.GetValue(data.ShipTo)?.ToString();
+                    if (!string.IsNullOrEmpty(value)) {
+                        form.Add(key, value);
                     }
                 }
             }
             form.Add("hash", Hash(form, StoreKey));
-            return form.OrderBy(x => x.Key == "hash").ThenBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
+            return form.OrderBy(key => key.Key, StringComparer.InvariantCultureIgnoreCase).ToDictionary(x => x.Key, x => x.Value);
         }
         private CC5Response _Transaction(CC5Request data) {
             var cc5request = new XmlSerializer(typeof(CC5Request));
