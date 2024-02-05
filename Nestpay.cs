@@ -229,7 +229,7 @@ namespace Nestpay {
             return JsonSerializer.Serialize(data, new JsonSerializerOptions { DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull, WriteIndented = true });
         }
         public static byte[] Byte(string data) {
-            return Encoding.ASCII.GetBytes(data);
+            return Encoding.UTF8.GetBytes(data);
         }
         public static string Hash(Dictionary<string, string> form, string secret) {
             var data = new List<string>();
