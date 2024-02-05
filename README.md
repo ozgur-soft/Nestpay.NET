@@ -3,7 +3,7 @@ Nestpay (EST) (Asseco) POS API with .NET
 
 # Installation
 ```bash
-dotnet add package Nestpay --version 1.4.7
+dotnet add package Nestpay --version 1.4.8
 ```
 
 # Satış
