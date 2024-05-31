@@ -62,7 +62,7 @@ namespace Nestpay {
         public class CC5Request {
             [XmlElement("Mode", IsNullable = false)]
             public string Mode { get; set; }
-            [FormElement("islemtipi")]
+            [FormElement("TranType")]
             [XmlElement("Type", IsNullable = false)]
             public string TransactionType { get; set; }
             [FormElement("storetype")]
@@ -84,6 +84,7 @@ namespace Nestpay {
             public string TransId { get; set; }
             [XmlElement("UserId", IsNullable = false)]
             public string UserId { get; set; }
+            [FormElement("clientip")]
             [XmlElement("IPAddress", IsNullable = false)]
             public string IPAddress { get; set; }
             [XmlElement("Email", IsNullable = false)]
@@ -108,7 +109,7 @@ namespace Nestpay {
             [FormElement("currency")]
             [XmlElement("Currency", IsNullable = false)]
             public string Currency { get; set; }
-            [FormElement("taksit")]
+            [FormElement("Instalment")]
             [XmlElement("Instalment", IsNullable = false)]
             public string Installment { get; set; }
             [XmlElement("BillTo", IsNullable = false)]
@@ -301,7 +302,7 @@ namespace Nestpay {
             data.ClientId = ClientId;
             data.TransactionType = "PreAuth";
             data.HashAlgorithm = "ver3";
-            data.StoreType = "3d";
+            data.StoreType = "3D";
             data.Random = new Random().Next(100000, 999999).ToString();
             var form = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
@@ -339,7 +340,7 @@ namespace Nestpay {
             data.ClientId = ClientId;
             data.TransactionType = "Auth";
             data.HashAlgorithm = "ver3";
-            data.StoreType = "3d";
+            data.StoreType = "3D";
             data.Random = new Random().Next(100000, 999999).ToString();
             var form = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             var elements = data.GetType().GetProperties().Where(x => x.GetCustomAttribute<FormElementAttribute>() != null);
